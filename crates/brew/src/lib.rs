@@ -1,13 +1,31 @@
+mod add;
 mod botanicals;
+mod cauldron;
+mod ingredient;
 mod is;
-mod measures;
 mod potions;
 mod time;
 
 pub mod prelude {
-    pub use crate::botanicals::*;
-    pub use crate::measures::*;
-    pub use crate::potions::*;
-    pub use crate::time::*;
-    pub use typenum::consts::*;
+  pub use crate::{
+    botanicals::*, cauldron::*, ingredient::*, potions::*, time::*,
+  };
+}
+
+#[macro_export]
+macro_rules! unit_struct {
+    ($($t:ident),*) => {
+        $(
+            pub struct $t(());
+        )*
+    }
+}
+
+#[macro_export]
+macro_rules! impl_as {
+    ($c:ident ==> $($t:tt),*) => {
+        $(
+            impl $c for $t {}
+        )*
+    }
 }
