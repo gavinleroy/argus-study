@@ -56,9 +56,9 @@ pub trait IntoRecipe<T> {
 
 impl<F, T1, Out, Res> IntoRecipe<(T1, Out, Res)> for F
 where
-  F: FnOnce(T1) -> Out,
+  F: FnOnce(T1) -> Out + Send,
   T1: Item,
-  Out: Future<Output = Res> + Send + Sync,
+  Out: Future<Output = Res> + Send,
   Res: Potion,
 {
   type Output = Res;
@@ -66,11 +66,11 @@ where
 
 impl<F, T1, T2, Out, Res> IntoRecipe<(T1, T2, Out, Res)> for F
 where
-  F: FnOnce(T1, T2) -> Out,
+  F: FnOnce(T1, T2) -> Out + Send,
   T1: Item,
   T2: Item,
   T2::Base: Neq<T1::Base>,
-  Out: Future<Output = Res> + Send + Sync,
+  Out: Future<Output = Res> + Send,
   Res: Potion,
 {
   type Output = Res;
@@ -78,14 +78,14 @@ where
 
 impl<F, T1, T2, T3, Out, Res> IntoRecipe<(T1, T2, T3, Out, Res)> for F
 where
-  F: FnOnce(T1, T2, T3) -> Out,
+  F: FnOnce(T1, T2, T3) -> Out + Send,
   T1: Item,
   T2: Item,
   T3: Item,
   T2::Base: Neq<T1::Base>,
   T3::Base: Neq<T1::Base>,
   T3::Base: Neq<T2::Base>,
-  Out: Future<Output = Res> + Send + Sync,
+  Out: Future<Output = Res> + Send,
   Res: Potion,
 {
   type Output = Res;

@@ -71,26 +71,20 @@ fn use_test_4() {
 }
 
 fn test_5(gardens: &Vec<&dyn AsGarden>) {
-    async fn speed_feed(
-        i1: Dittany,
-        i2: Shrivelfig,
-        i3: Bubotuber,
-    ) -> impl Potion {
-        use std::rc::Rc;
-        // TODO: we'll have to figure a better way for this...
-        let _rc = Rc::new(());
-        async {
-            EmptyCauldron::default()
-                .mix(i1)
-                .mix(i2)
-                .mix(i3)
-                .pour_as::<Blue>()
-        }.await
-    }
+  async fn speed_feed(
+    i1: Dittany,
+    i2: Shrivelfig,
+    i3: Reflower,
+  ) -> impl Potion {
+    EmptyCauldron::default()
+      .mix(i1)
+      .mix(i2)
+      .mix(i3)
+      .pour_as::<Blue>()
+  }
 
-    gardens.feed_in_parallel(speed_feed);
+  gardens.feed_in_parallel(speed_feed);
 }
-
 
 fn main() {
   test_1();
