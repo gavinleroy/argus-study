@@ -1,8 +1,5 @@
 //! Potion brewing system.
 
-// use std::{future::Future, ops::Add};
-// use typenum as tn;
-
 use std::future::Future;
 
 use crate::{
@@ -18,6 +15,10 @@ pub trait Poison: Potion {}
 pub trait Remedy: Potion {}
 pub trait IntoPotion {
     type Output: Potion;
+}
+
+impl<P: Potion> IntoPotion for P {
+    type Output = P;
 }
 
 crate::unit_struct! {
@@ -54,14 +55,18 @@ pub trait IntoRecipe<T> {
   type Output: Potion;
 }
 
+impl<IP: IntoPotion> IntoRecipe<()> for IP {
+  type Output = IP::Output;
+}
+
 impl<F, T1, Out, Res> IntoRecipe<(T1, Out, Res)> for F
 where
   F: FnOnce(T1) -> Out + Send,
   T1: Item,
   Out: Future<Output = Res> + Send,
-  Res: Potion,
+  Res: IntoPotion,
 {
-  type Output = Res;
+  type Output = Res::Output;
 }
 
 impl<F, T1, T2, Out, Res> IntoRecipe<(T1, T2, Out, Res)> for F
@@ -71,9 +76,9 @@ where
   T2: Item,
   T2::Base: Neq<T1::Base>,
   Out: Future<Output = Res> + Send,
-  Res: Potion,
+  Res: IntoPotion,
 {
-  type Output = Res;
+  type Output = Res::Output;
 }
 
 impl<F, T1, T2, T3, Out, Res> IntoRecipe<(T1, T2, T3, Out, Res)> for F
@@ -86,9 +91,9 @@ where
   T3::Base: Neq<T1::Base>,
   T3::Base: Neq<T2::Base>,
   Out: Future<Output = Res> + Send,
-  Res: Potion,
+  Res: IntoPotion,
 {
-  type Output = Res;
+  type Output = Res::Output;
 }
 
 #[cfg(test)]
@@ -124,11 +129,4 @@ mod test {
       ) -> Pink { todo!() }
       is_recipe(f);
   }
-
-  // ///```compile_fail
-  // /// async fn f(_: I<1, Dash, usize>) {}
-  // /// is_recipe(f);
-  // ///```
-  // #[test]
-  // fn test_2() {}
 }
