@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 use proc_macro::TokenStream;
 
-#[proc_macro_derive(Food)]
+#[proc_macro_derive(HumanFood)]
 pub fn food_derive(input: TokenStream) -> TokenStream {
   // Parse the input tokens into a syntax tree
   let ast = syn::parse(input).unwrap();
@@ -14,7 +14,7 @@ pub fn food_derive(input: TokenStream) -> TokenStream {
 fn impl_food(ast: &syn::DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let gen = quote::quote! {
-      impl Food for #name {}
+      impl HumanFood for #name {}
   };
   gen.into()
 }

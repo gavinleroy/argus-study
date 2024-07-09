@@ -1,10 +1,9 @@
-mod add;
 mod botanicals;
 mod cauldron;
 mod ingredient;
-mod is;
 mod potions;
 mod time;
+mod count;
 
 pub mod prelude {
   pub use crate::{
@@ -24,6 +23,17 @@ macro_rules! unit_struct {
 #[macro_export]
 macro_rules! impl_as {
     ($c:ident ==> $($t:tt),*) => {
+        $(
+            impl $c for $t {}
+        )*
+    }
+}
+
+#[macro_export]
+macro_rules! make_simple {
+    ($vis:vis $c:ident ==> $($t:tt),*) => {
+        $crate::unit_struct!($($t),*);
+        $vis trait $c {}
         $(
             impl $c for $t {}
         )*

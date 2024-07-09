@@ -1,5 +1,5 @@
-use super::Cauldron;
-use crate::potions::*;
+use super::{Cauldron, CoolEnough, NonEmpty, Warm, Cold};
+use crate::{potions::*, count::*};
 
 pub trait PourDsl<P: Potion> {
   /// The type returned by the `.pour()` method.
@@ -12,45 +12,65 @@ impl<C, P> PourDsl<P> for C
 where
   C: Cauldron,
   P: Potion,
-  C::Content: PourDsl<P>,
+  C::IngredientCount: NonEmpty,
+  C::Temperature: CoolEnough,
+  (C::IngredientCount, C::Temperature): PourDsl<P>,
 {
-  type Output = <C::Content as PourDsl<P>>::Output;
+  type Output = <(C::IngredientCount, C::Temperature) as PourDsl<P>>::Output;
 
   fn pour(self) -> Self::Output {
     todo!()
   }
 }
 
-// ----------------
-// Pouring remedies
-
-impl<T1, R: Remedy> PourDsl<R> for (T1,) {
-  type Output = R;
-  fn pour(self) -> Self::Output {
-    todo!()
+macro_rules! impl_remedy {
+  (@ $tmp:ident : $($c:ty),*) => {
+    $(
+      impl<R> PourDsl<R> for ($c, $tmp)
+        where
+        R: Remedy,
+      {
+        type Output = R;
+        fn pour(self) -> Self::Output {
+          todo!()
+        }
+      }
+    )*
   }
 }
 
-impl<T1, T2, T3, R: Remedy> PourDsl<R> for (T1, T2, T3) {
-  type Output = R;
-  fn pour(self) -> Self::Output {
-    todo!()
+macro_rules! impl_poison {
+  (@ $tmp:ident : $($c:ty),*) => {
+    $(
+      impl<P> PourDsl<P> for ($c, $tmp)
+        where
+        P: Poison,
+      {
+        type Output = P;
+        fn pour(self) -> Self::Output {
+          todo!()
+        }
+      }
+    )*
   }
 }
 
-// ---------------
-// Pouring poisons
-
-impl<T1, T2, P: Poison> PourDsl<P> for (T1, T2) {
-  type Output = P;
-  fn pour(self) -> Self::Output {
-    todo!()
-  }
+impl_remedy! {
+  @ Cold :
+  One, Three, Five
 }
 
-impl<T1, T2, T3, T4, P: Poison> PourDsl<P> for (T1, T2, T3, T4) {
-  type Output = P;
-  fn pour(self) -> Self::Output {
-    todo!()
-  }
+impl_remedy! {
+  @ Warm :
+  Two, Four, Six
+}
+
+impl_poison! {
+  @ Cold :
+  Two, Four, Six
+}
+
+impl_poison! {
+  @ Warm :
+  One, Three, Five
 }

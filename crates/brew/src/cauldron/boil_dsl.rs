@@ -1,5 +1,4 @@
-use super::{BoilingCauldron, Cauldron, NonEmpty};
-use crate::{add::Addable, ingredient::Heat};
+use super::{Cauldron, MixingCauldron, Hot, NonEmpty};
 
 pub trait BoilDsl {
   type Output;
@@ -9,10 +8,10 @@ pub trait BoilDsl {
 
 impl<C> BoilDsl for C
 where
-  C: Cauldron + NonEmpty,
-  C::Content: Addable<Heat>,
+  C: Cauldron,
+  C::IngredientCount: NonEmpty,
 {
-  type Output = BoilingCauldron<<C::Content as Addable<Heat>>::Output>;
+  type Output = MixingCauldron<C::IngredientCount, Hot>;
 
   fn boil(self) -> Self::Output {
     todo!()

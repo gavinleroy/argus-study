@@ -1,5 +1,5 @@
 use super::{Cauldron, MixingCauldron};
-use crate::{add::Addable, ingredient::Ingredient};
+use crate::{ingredient::Ingredient, count::Add1};
 
 pub trait MixDsl<Rhs> {
   type Output;
@@ -10,10 +10,10 @@ pub trait MixDsl<Rhs> {
 impl<C, Rhs> MixDsl<Rhs> for C
 where
   C: Cauldron,
+  C::IngredientCount: Add1,
   Rhs: Ingredient,
-  C::Content: Addable<Rhs>,
 {
-  type Output = MixingCauldron<<C::Content as Addable<Rhs>>::Output>;
+  type Output = MixingCauldron<<C::IngredientCount as Add1>::Output, C::Temperature>;
   fn mix_with(self, _rhs: Rhs) -> Self::Output {
     todo!()
   }

@@ -1,13 +1,11 @@
 //! Botanicals grown for use in potions.
 use crate::{
-  is::Neq,
   potions::{IntoRecipe, Poison},
   time::AsSchedule,
 };
 
-pub trait Botanical {}
-
-crate::unit_struct! {
+crate::make_simple! {
+  pub Botanical ==>
   Dittany,
   Aconite,
   Wiggentree,
@@ -17,78 +15,7 @@ crate::unit_struct! {
 }
 
 pub struct Reflower(std::marker::PhantomData<std::rc::Rc<()>>);
-
-macro_rules! botanicals {
-  ($($name:ident),*) => {
-    $(
-      impl Botanical for $name {}
-    )*
-  };
-}
-
-botanicals! {
-  Dittany,
-  Aconite,
-  Wiggentree,
-  Alihotsy,
-  Shrivelfig,
-  Bubotuber,
-  Reflower
-}
-
-// Neq relationships, this is annoying because we can't specify
-// this as an auto-trait with negative impl.
-
-impl Neq<Aconite> for Dittany {}
-impl Neq<Aconite> for Wiggentree {}
-impl Neq<Aconite> for Alihotsy {}
-impl Neq<Aconite> for Shrivelfig {}
-impl Neq<Aconite> for Bubotuber {}
-impl Neq<Aconite> for Reflower {}
-
-impl Neq<Dittany> for Aconite {}
-impl Neq<Dittany> for Wiggentree {}
-impl Neq<Dittany> for Alihotsy {}
-impl Neq<Dittany> for Shrivelfig {}
-impl Neq<Dittany> for Bubotuber {}
-impl Neq<Dittany> for Reflower {}
-
-impl Neq<Wiggentree> for Aconite {}
-impl Neq<Wiggentree> for Dittany {}
-impl Neq<Wiggentree> for Alihotsy {}
-impl Neq<Wiggentree> for Shrivelfig {}
-impl Neq<Wiggentree> for Bubotuber {}
-impl Neq<Wiggentree> for Reflower {}
-
-impl Neq<Alihotsy> for Aconite {}
-impl Neq<Alihotsy> for Dittany {}
-impl Neq<Alihotsy> for Wiggentree {}
-impl Neq<Alihotsy> for Shrivelfig {}
-impl Neq<Alihotsy> for Bubotuber {}
-impl Neq<Alihotsy> for Reflower {}
-
-impl Neq<Shrivelfig> for Aconite {}
-impl Neq<Shrivelfig> for Dittany {}
-impl Neq<Shrivelfig> for Wiggentree {}
-impl Neq<Shrivelfig> for Alihotsy {}
-impl Neq<Shrivelfig> for Bubotuber {}
-impl Neq<Shrivelfig> for Reflower {}
-
-impl Neq<Bubotuber> for Aconite {}
-impl Neq<Bubotuber> for Dittany {}
-impl Neq<Bubotuber> for Wiggentree {}
-impl Neq<Bubotuber> for Alihotsy {}
-impl Neq<Bubotuber> for Shrivelfig {}
-impl Neq<Bubotuber> for Reflower {}
-
-impl Neq<Reflower> for Aconite {}
-impl Neq<Reflower> for Dittany {}
-impl Neq<Reflower> for Wiggentree {}
-impl Neq<Reflower> for Alihotsy {}
-impl Neq<Reflower> for Shrivelfig {}
-impl Neq<Reflower> for Bubotuber {}
-
-// ------------------------------
+impl Botanical for Reflower {}
 
 pub trait AsGarden {}
 impl<T: Botanical, const N: usize> AsGarden for Garden<T, N> {}
@@ -123,14 +50,14 @@ impl<T: Botanical, const N: usize> Garden<T, N> {
   pub fn garden(&self) {}
 }
 
-pub trait ParallelFeed {
+pub trait ParallelFeed<M> {
   fn feed_in_parallel<S, R>(&self, _recipe: R)
   where
     R: IntoRecipe<S> + Send + Sync,
     R::Output: Send + Sync;
 }
 
-impl ParallelFeed for Vec<&dyn AsGarden> {
+impl<'a, G: AsGarden, V: AsRef<[G]>> ParallelFeed<G> for V {
   fn feed_in_parallel<S, R>(&self, _recipe: R)
   where
     R: IntoRecipe<S> + Send + Sync,

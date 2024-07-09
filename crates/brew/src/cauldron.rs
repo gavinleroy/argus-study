@@ -1,19 +1,31 @@
-use crate::{ingredient::*, potions::*};
+use crate::{ingredient::*, potions::*, count::*};
 
 mod boil_dsl;
 mod mix_dsl;
 mod pour_dsl;
+mod rest_dsl;
 
 mod types {
   use super::*;
   pub type Pour<Source, Poured> = <Source as pour_dsl::PourDsl<Poured>>::Output;
   pub type Mix<Source, With> = <Source as mix_dsl::MixDsl<With>>::Output;
   pub type Boil<Source> = <Source as boil_dsl::BoilDsl>::Output;
+  pub type Rest<Source> = <Source as rest_dsl::RestDsl>::Output;
 }
 
 mod methods {
-  pub use super::{boil_dsl::*, mix_dsl::*, pour_dsl::*};
+  pub use super::{boil_dsl::*, mix_dsl::*, pour_dsl::*, rest_dsl::*};
 }
+
+crate::make_simple! {
+  pub Temperature ==>
+  Cold,
+  Warm,
+  Hot
+}
+
+trait CoolEnough {}
+crate::impl_as!(CoolEnough ==> Cold, Warm);
 
 pub trait BrewDsl: Sized {
   fn pour_as<P>(self) -> types::Pour<Self, P>
@@ -39,44 +51,60 @@ pub trait BrewDsl: Sized {
   {
     methods::BoilDsl::boil(self)
   }
+
+  fn rest(self) -> types::Rest<Self>
+    where
+    Self: methods::RestDsl,
+  {
+    methods::RestDsl::rest(self)
+  }
+
 }
 
 // ----------------------
 // Impl things
 
 pub trait NonEmpty {}
-impl<T1> NonEmpty for (T1,) {}
-impl<T1, T2> NonEmpty for (T1, T2) {}
-impl<T1, T2, T3> NonEmpty for (T1, T2, T3) {}
-impl<T1, T2, T3, T4> NonEmpty for (T1, T2, T3, T4) {}
+crate::impl_as! {
+  NonEmpty ==>
+  One,
+  Two,
+  Three,
+  Four,
+  Five,
+  Six
+}
 
 pub trait Cauldron {
-  type Content;
+  type IngredientCount: Count;
+  type Temperature: Temperature;
 }
 
 impl<C: Cauldron> BrewDsl for C {}
+impl<C, T> Cauldron for MixingCauldron<C, T>
+  where
+    C: Count,
+    T: Temperature,
+{
+  type IngredientCount = C;
+  type Temperature = T;
+}
+
 impl<C> NonEmpty for C
 where
   C: Cauldron,
-  C::Content: NonEmpty,
+  C::IngredientCount: NonEmpty,
 {
 }
 
-pub struct MixingCauldron<T>(std::marker::PhantomData<T>);
-impl<T> Cauldron for MixingCauldron<T> {
-  type Content = T;
-}
+pub struct MixingCauldron<C: Count, T: Temperature>(
+  std::marker::PhantomData<(C, T)>,
+);
 
-#[derive(Default)]
 pub struct EmptyCauldron;
 
-impl Cauldron for EmptyCauldron {
-  type Content = ();
-}
-
-pub struct BoilingCauldron<T>(std::marker::PhantomData<T>);
-impl<T> BoilingCauldron<T> {
-  pub fn rest(self) -> impl Cauldron<Content = T> {
+impl EmptyCauldron {
+  pub fn new() -> MixingCauldron<Zero, Cold> {
     MixingCauldron(std::marker::PhantomData)
   }
 }
