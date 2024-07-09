@@ -1,44 +1,45 @@
-use super::{Cauldron, MixingCauldron, Temperature, Hot, Warm, Cold};
+use super::{Cauldron, Cold, Hot, MixingCauldron, Temperature, Warm};
 
 pub trait RestDsl {
-    type Output;
+  type Output;
 
-    fn rest(self) -> Self::Output;
+  fn rest(self) -> Self::Output;
 }
 
 impl<C> RestDsl for C
-  where
-      C: Cauldron,
-      C::Temperature: RestDsl,
-      <C::Temperature as RestDsl>::Output: Temperature,
+where
+  C: Cauldron,
+  C::Temperature: RestDsl,
+  <C::Temperature as RestDsl>::Output: Temperature,
 {
-    type Output = MixingCauldron<C::IngredientCount, <C::Temperature as RestDsl>::Output>;
+  type Output =
+    MixingCauldron<C::IngredientCount, <C::Temperature as RestDsl>::Output>;
 
-    fn rest(self) -> Self::Output {
-        todo!()
-    }
+  fn rest(self) -> Self::Output {
+    todo!()
+  }
 }
 
 impl RestDsl for Hot {
-    type Output = Warm;
+  type Output = Warm;
 
-    fn rest(self) -> Self::Output {
-        todo!()
-    }
+  fn rest(self) -> Self::Output {
+    todo!()
+  }
 }
 
 impl RestDsl for Warm {
-    type Output = Cold;
+  type Output = Cold;
 
-    fn rest(self) -> Self::Output {
-        todo!()
-    }
+  fn rest(self) -> Self::Output {
+    todo!()
+  }
 }
 
 impl RestDsl for Cold {
-    type Output = Cold;
+  type Output = Cold;
 
-    fn rest(self) -> Self::Output {
-        todo!()
-    }
+  fn rest(self) -> Self::Output {
+    todo!()
+  }
 }

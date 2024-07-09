@@ -8,7 +8,6 @@ async fn magic_brownie(i1: Dittany, i2: Bubotuber) -> impl Remedy {
     .pour_as::<Green>()
 }
 
-
 fn main() {
   Garden::<Wiggentree, 12>::new()
     .add_feeding_schedule(Monthly, magic_brownie)

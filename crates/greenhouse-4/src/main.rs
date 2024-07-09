@@ -1,11 +1,7 @@
 use brew::prelude::*;
 use rayon::prelude::*;
 
-async fn speed_feed(
-  i1: Dittany,
-  i2: Shrivelfig,
-  i3: Reflower,
-) -> impl Potion {
+async fn speed_feed(i1: Dittany, i2: Shrivelfig, i3: Reflower) -> impl Potion {
   EmptyCauldron::new()
     .mix(i1)
     .mix(i2)

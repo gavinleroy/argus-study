@@ -1,4 +1,4 @@
-use super::{Cauldron, MixingCauldron, Hot, NonEmpty};
+use super::{Cauldron, Hot, MixingCauldron, NonEmpty};
 
 pub trait BoilDsl {
   type Output;

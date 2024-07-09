@@ -1,5 +1,5 @@
-use super::{Cauldron, CoolEnough, NonEmpty, Warm, Cold};
-use crate::{potions::*, count::*};
+use super::{Cauldron, Cold, CoolEnough, NonEmpty, Warm};
+use crate::{count::*, potions::*};
 
 pub trait PourDsl<P: Potion> {
   /// The type returned by the `.pour()` method.

@@ -1,9 +1,9 @@
 // @generated automatically by Diesel CLI.
 
 pub mod sql_types {
-    #[derive(diesel::sql_types::SqlType)]
-    #[diesel(postgres_type(name = "language"))]
-    pub struct Language;
+  #[derive(diesel::sql_types::SqlType)]
+  #[diesel(postgres_type(name = "language"))]
+  pub struct Language;
 }
 
 diesel::table! {

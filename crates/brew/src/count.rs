@@ -10,7 +10,7 @@ crate::make_simple! {
 }
 
 pub trait Add1: Count {
-    type Output: Count;
+  type Output: Count;
 }
 
 macro_rules! add1_to {

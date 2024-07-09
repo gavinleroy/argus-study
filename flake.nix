@@ -12,7 +12,6 @@
     pkgs = import nixpkgs {
       inherit system overlays;
     };
-    toolchain = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
   in {
     devShell = with pkgs; mkShell { 
       buildInputs = [ 

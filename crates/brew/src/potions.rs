@@ -11,11 +11,11 @@ pub trait Potion {}
 pub trait Poison: Potion {}
 pub trait Remedy: Potion {}
 pub trait IntoPotion {
-    type Output: Potion;
+  type Output: Potion;
 }
 
 impl<P: Potion> IntoPotion for P {
-    type Output = P;
+  type Output = P;
 }
 
 crate::unit_struct! {
@@ -102,7 +102,8 @@ where
   type Output = Res::Output;
 }
 
-impl<F, T1, T2, T3, T4, T5, Out, Res> IntoRecipe<(T1, T2, T3, T4, T5, Out, Res)> for F
+impl<F, T1, T2, T3, T4, T5, Out, Res> IntoRecipe<(T1, T2, T3, T4, T5, Out, Res)>
+  for F
 where
   F: FnOnce(T1, T2, T3, T4, T5) -> Out + Send,
   T1: PlantSafe,
@@ -116,7 +117,8 @@ where
   type Output = Res::Output;
 }
 
-impl<F, T1, T2, T3, T4, T5, T6, Out, Res> IntoRecipe<(T1, T2, T3, T4, T5, T6, Out, Res)> for F
+impl<F, T1, T2, T3, T4, T5, T6, Out, Res>
+  IntoRecipe<(T1, T2, T3, T4, T5, T6, Out, Res)> for F
 where
   F: FnOnce(T1, T2, T3, T4, T5, T6) -> Out + Send,
   T1: PlantSafe,
@@ -140,28 +142,25 @@ mod test {
 
   #[test]
   fn test_1() {
-      async fn f(
-          _: Dittany,
-      ) -> Blue { todo!() }
-      is_recipe(f);
+    async fn f(_: Dittany) -> Blue {
+      todo!()
+    }
+    is_recipe(f);
   }
 
   #[test]
   fn test_2() {
-      async fn f(
-          _: Dittany,
-          _: Aconite,
-          _: Wiggentree,
-      ) -> Blue { todo!() }
-      is_recipe(f);
+    async fn f(_: Dittany, _: Aconite, _: Wiggentree) -> Blue {
+      todo!()
+    }
+    is_recipe(f);
   }
 
   #[test]
   fn test_3() {
-      async fn f(
-          _: Dittany,
-          _: Wiggentree,
-      ) -> Pink { todo!() }
-      is_recipe(f);
+    async fn f(_: Dittany, _: Wiggentree) -> Pink {
+      todo!()
+    }
+    is_recipe(f);
   }
 }

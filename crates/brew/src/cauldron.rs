@@ -1,4 +1,4 @@
-use crate::{ingredient::*, potions::*, count::*};
+use crate::{count::*, ingredient::*, potions::*};
 
 mod boil_dsl;
 mod mix_dsl;
@@ -52,12 +52,11 @@ pub trait BrewDsl: Sized {
   }
 
   fn rest(self) -> types::Rest<Self>
-    where
+  where
     Self: methods::RestDsl,
   {
     methods::RestDsl::rest(self)
   }
-
 }
 
 // ----------------------
@@ -81,9 +80,9 @@ pub trait Cauldron {
 
 impl<C: Cauldron> BrewDsl for C {}
 impl<C, T> Cauldron for MixingCauldron<C, T>
-  where
-    C: Count,
-    T: Temperature,
+where
+  C: Count,
+  T: Temperature,
 {
   type IngredientCount = C;
   type Temperature = T;
