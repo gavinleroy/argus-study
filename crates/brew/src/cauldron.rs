@@ -36,13 +36,12 @@ pub trait BrewDsl: Sized {
     methods::PourDsl::pour(self)
   }
 
-  fn mix<Rhs>(self, rhs: Rhs) -> types::Mix<Self, Rhs::Base>
+  fn mix<Rhs>(self, rhs: Rhs) -> types::Mix<Self, Rhs>
   where
-    Rhs: Item,
-    Rhs::Base: Ingredient,
-    Self: methods::MixDsl<Rhs::Base>,
+    Rhs: Ingredient,
+    Self: methods::MixDsl<Rhs>,
   {
-    methods::MixDsl::mix_with(self, rhs.base())
+    methods::MixDsl::mix_with(self, rhs)
   }
 
   fn boil(self) -> types::Boil<Self>

@@ -1,6 +1,6 @@
 use brew::prelude::*;
 
-async fn shrivel(i1: Dittany) -> impl Poison {
+async fn shrivel(i1: Shrivelfig) -> impl Potion {
   EmptyCauldron::new()
     .mix(i1)
     .boil()

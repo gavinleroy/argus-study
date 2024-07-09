@@ -12,8 +12,8 @@ struct Pasta;
 
 async fn make_spaghetti(
     i1: Liquified<Tomatoe>,
-    i2: Liquified<Meatball>,
-    i3: Liquified<Pasta>,
+    i2: Meatball,
+    i3: Pasta,
 ) -> impl Potion {
   EmptyCauldron::new()
     .mix(i1)

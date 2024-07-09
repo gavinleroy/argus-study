@@ -1,21 +1,13 @@
 use crate::botanicals::*;
 
+pub trait PlantSafe: Ingredient {}
 pub trait Ingredient {}
 
 pub trait HumanFood {}
 
-pub trait Item {
-  type Base;
-  fn base(&self) -> Self::Base {
-    todo!()
-  }
-}
-
 pub struct Liquified<F>(std::marker::PhantomData<F>);
 
-impl<B: Botanical> Ingredient for B {}
-impl<F: HumanFood> Ingredient for Liquified<F> {}
+impl<B> Ingredient for B {}
 
-impl<T: Ingredient> Item for T {
-  type Base = T;
-}
+impl<B: Botanical> PlantSafe for B {}
+impl<F: HumanFood> PlantSafe for Liquified<F> {}
