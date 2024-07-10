@@ -22,5 +22,5 @@ jobs:
       - uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
           branch: gh-pages
-          folder: ./target/docs
+          folder: ./target/doc
           clean: true
