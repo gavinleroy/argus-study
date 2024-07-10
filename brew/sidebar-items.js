@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":["impl_as","make_simple","unit_struct"],"mod":["prelude"]};

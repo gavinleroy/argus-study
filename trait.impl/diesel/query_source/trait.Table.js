@@ -1,0 +1,4 @@
+(function() {var implementors = {
+"diesel":[],
+"diesel_0":[["impl <a class=\"trait\" href=\"diesel/query_source/trait.Table.html\" title=\"trait diesel::query_source::Table\">Table</a> for <a class=\"struct\" href=\"diesel_0/schema/colors/struct.table.html\" title=\"struct diesel_0::schema::colors::table\">table</a>"],["impl <a class=\"trait\" href=\"diesel/query_source/trait.Table.html\" title=\"trait diesel::query_source::Table\">Table</a> for <a class=\"struct\" href=\"diesel_0/schema/coordinates/struct.table.html\" title=\"struct diesel_0::schema::coordinates::table\">table</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

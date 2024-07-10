@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"diesel":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.79.0/core/ops/arith/trait.SubAssign.html\" title=\"trait core::ops::arith::SubAssign\">SubAssign</a> for <a class=\"struct\" href=\"diesel/pg/data_types/struct.PgMoney.html\" title=\"struct diesel::pg::data_types::PgMoney\">PgMoney</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
