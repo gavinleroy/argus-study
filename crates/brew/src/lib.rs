@@ -39,3 +39,33 @@ macro_rules! make_simple {
         )*
     }
 }
+
+#[macro_export]
+macro_rules! describe_recipe {
+  ($fname:ident $ids:tt ==> $return_trait:ident) => {
+    $crate::munch!($ids; []; $fname, $return_trait);
+  }
+}
+
+#[macro_export]
+macro_rules! munch {
+  ([]; [$($ts:ty),*]; $f:ident, $ret:ident) => {
+    fn $f<F, Res, Out>(func: F)
+      where
+        F: Fn($($ts),*) -> Res,
+        Res: std::future::Future<Output = Out>,
+        Out: $ret,
+    {
+      fn is_recipe<R>(_: impl IntoRecipe<R>) {}
+      is_recipe(func);
+    }
+  };
+
+  ([[botanical $b:ty] $($tts:tt)*]; [$($ts:ty),*]; $f:ident, $ret:ident) => {
+    $crate::munch!([ $($tts)* ]; [$($ts,)* $b]; $f, $ret);
+  };
+
+  ([[food $b:ty] $($tts:tt)*]; [$($ts:ty),*]; $f:ident, $ret:ident) => {
+    $crate::munch!([ $($tts)* ]; [$($ts,)* Liquified<$b>]; $f, $ret);
+  };
+}

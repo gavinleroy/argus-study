@@ -17,11 +17,14 @@
       buildInputs = [ 
         llvmPackages_latest.llvm
         llvmPackages_latest.lld
+
         rust-bin.stable.latest.default
         rust-analyzer
         rustfmt
         clippy
-      ] ++ lib.optional stdenv.isDarwin libiconv; 
+      ] ++ lib.optional stdenv.isDarwin [
+        darwin.apple_sdk.frameworks.SystemConfiguration
+      ]; 
 
       RUSTC_LINKER = "${pkgs.llvmPackages.clangUseLLVM}/bin/clang";
     };

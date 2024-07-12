@@ -58,9 +58,9 @@ impl<IP: IntoPotion> IntoRecipe<()> for IP {
 
 impl<F, T1, Out, Res> IntoRecipe<(T1, Out, Res)> for F
 where
-  F: FnOnce(T1) -> Out + Send,
+  F: FnOnce(T1) -> Out,
   T1: PlantSafe,
-  Out: Future<Output = Res> + Send,
+  Out: Future<Output = Res>,
   Res: IntoPotion,
 {
   type Output = Res::Output;
@@ -68,10 +68,10 @@ where
 
 impl<F, T1, T2, Out, Res> IntoRecipe<(T1, T2, Out, Res)> for F
 where
-  F: FnOnce(T1, T2) -> Out + Send,
+  F: FnOnce(T1, T2) -> Out,
   T1: PlantSafe,
   T2: PlantSafe,
-  Out: Future<Output = Res> + Send,
+  Out: Future<Output = Res>,
   Res: IntoPotion,
 {
   type Output = Res::Output;
@@ -79,11 +79,11 @@ where
 
 impl<F, T1, T2, T3, Out, Res> IntoRecipe<(T1, T2, T3, Out, Res)> for F
 where
-  F: FnOnce(T1, T2, T3) -> Out + Send,
+  F: FnOnce(T1, T2, T3) -> Out,
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
-  Out: Future<Output = Res> + Send,
+  Out: Future<Output = Res>,
   Res: IntoPotion,
 {
   type Output = Res::Output;
@@ -91,12 +91,12 @@ where
 
 impl<F, T1, T2, T3, T4, Out, Res> IntoRecipe<(T1, T2, T3, T4, Out, Res)> for F
 where
-  F: FnOnce(T1, T2, T3, T4) -> Out + Send,
+  F: FnOnce(T1, T2, T3, T4) -> Out,
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
   T4: PlantSafe,
-  Out: Future<Output = Res> + Send,
+  Out: Future<Output = Res>,
   Res: IntoPotion,
 {
   type Output = Res::Output;
@@ -105,13 +105,13 @@ where
 impl<F, T1, T2, T3, T4, T5, Out, Res> IntoRecipe<(T1, T2, T3, T4, T5, Out, Res)>
   for F
 where
-  F: FnOnce(T1, T2, T3, T4, T5) -> Out + Send,
+  F: FnOnce(T1, T2, T3, T4, T5) -> Out,
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
   T4: PlantSafe,
   T5: PlantSafe,
-  Out: Future<Output = Res> + Send,
+  Out: Future<Output = Res>,
   Res: IntoPotion,
 {
   type Output = Res::Output;
@@ -120,14 +120,14 @@ where
 impl<F, T1, T2, T3, T4, T5, T6, Out, Res>
   IntoRecipe<(T1, T2, T3, T4, T5, T6, Out, Res)> for F
 where
-  F: FnOnce(T1, T2, T3, T4, T5, T6) -> Out + Send,
+  F: FnOnce(T1, T2, T3, T4, T5, T6) -> Out,
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
   T4: PlantSafe,
   T5: PlantSafe,
   T6: PlantSafe,
-  Out: Future<Output = Res> + Send,
+  Out: Future<Output = Res>,
   Res: IntoPotion,
 {
   type Output = Res::Output;

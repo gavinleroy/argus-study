@@ -1,8 +1,5 @@
-use std::fmt::Debug;
+use std::fmt;
 
-pub trait InPink: Debug {}
-impl<T: Debug> InPink for T {}
-
-pub fn inpink<T: InPink>(v: T) {
-  println!("\x1b[0;35m{v:?}\x1b[0m");
+pub fn in_pink<T: fmt::Display>(v: &T) {
+  println!("\x1b[0;35m{v}\x1b[0m");
 }

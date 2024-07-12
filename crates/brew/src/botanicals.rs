@@ -5,7 +5,7 @@ use crate::{
 };
 
 crate::make_simple! {
-  pub Botanical ==>
+  pub(crate) Botanical ==>
   Dittany,
   Aconite,
   Wiggentree,
@@ -17,14 +17,17 @@ crate::make_simple! {
 pub struct Reflower(std::marker::PhantomData<std::rc::Rc<()>>);
 impl Botanical for Reflower {}
 
+pub trait Feedable {}
+impl<B: Botanical> Feedable for B {}
+
 pub trait AsGarden {}
 impl<T: Botanical, const N: usize> AsGarden for Garden<T, N> {}
 
-pub struct Garden<T: Botanical, const N: usize> {
+pub struct Garden<T: Feedable, const N: usize> {
   _plants: std::marker::PhantomData<[T; N]>,
 }
 
-impl<T: Botanical, const N: usize> Garden<T, N> {
+impl<T: Feedable, const N: usize> Garden<T, N> {
   pub fn new() -> Self {
     Garden {
       _plants: std::marker::PhantomData,
