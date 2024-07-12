@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"macro":["impl_as","make_simple","unit_struct"],"mod":["prelude"]};
+window.SIDEBAR_ITEMS = {"macro":["describe_recipe","impl_as","make_simple","munch","unit_struct"],"mod":["prelude"]};

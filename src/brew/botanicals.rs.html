@@ -66,6 +66,9 @@
 <a href="#66" id="66">66</a>
 <a href="#67" id="67">67</a>
 <a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Botanicals grown for use in potions.
 </span><span class="kw">use crate</span>::{
   potions::{IntoRecipe, Poison},
@@ -73,7 +76,7 @@
 };
 
 <span class="macro">crate::make_simple!</span> {
-  <span class="kw">pub </span>Botanical ==&gt;
+  <span class="kw">pub</span>(<span class="kw">crate</span>) Botanical ==&gt;
   Dittany,
   Aconite,
   Wiggentree,
@@ -85,14 +88,17 @@
 <span class="kw">pub struct </span>Reflower(std::marker::PhantomData&lt;std::rc::Rc&lt;()&gt;&gt;);
 <span class="kw">impl </span>Botanical <span class="kw">for </span>Reflower {}
 
+<span class="kw">pub trait </span>Feedable {}
+<span class="kw">impl</span>&lt;B: Botanical&gt; Feedable <span class="kw">for </span>B {}
+
 <span class="kw">pub trait </span>AsGarden {}
 <span class="kw">impl</span>&lt;T: Botanical, <span class="kw">const </span>N: usize&gt; AsGarden <span class="kw">for </span>Garden&lt;T, N&gt; {}
 
-<span class="kw">pub struct </span>Garden&lt;T: Botanical, <span class="kw">const </span>N: usize&gt; {
+<span class="kw">pub struct </span>Garden&lt;T: Feedable, <span class="kw">const </span>N: usize&gt; {
   _plants: std::marker::PhantomData&lt;[T; N]&gt;,
 }
 
-<span class="kw">impl</span>&lt;T: Botanical, <span class="kw">const </span>N: usize&gt; Garden&lt;T, N&gt; {
+<span class="kw">impl</span>&lt;T: Feedable, <span class="kw">const </span>N: usize&gt; Garden&lt;T, N&gt; {
   <span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
     Garden {
       _plants: std::marker::PhantomData,

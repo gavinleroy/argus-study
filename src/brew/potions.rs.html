@@ -224,9 +224,9 @@
 
 <span class="kw">impl</span>&lt;F, T1, Out, Res&gt; IntoRecipe&lt;(T1, Out, Res)&gt; <span class="kw">for </span>F
 <span class="kw">where
-  </span>F: FnOnce(T1) -&gt; Out + Send,
+  </span>F: FnOnce(T1) -&gt; Out,
   T1: PlantSafe,
-  Out: Future&lt;Output = Res&gt; + Send,
+  Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
   <span class="kw">type </span>Output = Res::Output;
@@ -234,10 +234,10 @@
 
 <span class="kw">impl</span>&lt;F, T1, T2, Out, Res&gt; IntoRecipe&lt;(T1, T2, Out, Res)&gt; <span class="kw">for </span>F
 <span class="kw">where
-  </span>F: FnOnce(T1, T2) -&gt; Out + Send,
+  </span>F: FnOnce(T1, T2) -&gt; Out,
   T1: PlantSafe,
   T2: PlantSafe,
-  Out: Future&lt;Output = Res&gt; + Send,
+  Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
   <span class="kw">type </span>Output = Res::Output;
@@ -245,11 +245,11 @@
 
 <span class="kw">impl</span>&lt;F, T1, T2, T3, Out, Res&gt; IntoRecipe&lt;(T1, T2, T3, Out, Res)&gt; <span class="kw">for </span>F
 <span class="kw">where
-  </span>F: FnOnce(T1, T2, T3) -&gt; Out + Send,
+  </span>F: FnOnce(T1, T2, T3) -&gt; Out,
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
-  Out: Future&lt;Output = Res&gt; + Send,
+  Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
   <span class="kw">type </span>Output = Res::Output;
@@ -257,12 +257,12 @@
 
 <span class="kw">impl</span>&lt;F, T1, T2, T3, T4, Out, Res&gt; IntoRecipe&lt;(T1, T2, T3, T4, Out, Res)&gt; <span class="kw">for </span>F
 <span class="kw">where
-  </span>F: FnOnce(T1, T2, T3, T4) -&gt; Out + Send,
+  </span>F: FnOnce(T1, T2, T3, T4) -&gt; Out,
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
   T4: PlantSafe,
-  Out: Future&lt;Output = Res&gt; + Send,
+  Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
   <span class="kw">type </span>Output = Res::Output;
@@ -271,13 +271,13 @@
 <span class="kw">impl</span>&lt;F, T1, T2, T3, T4, T5, Out, Res&gt; IntoRecipe&lt;(T1, T2, T3, T4, T5, Out, Res)&gt;
   <span class="kw">for </span>F
 <span class="kw">where
-  </span>F: FnOnce(T1, T2, T3, T4, T5) -&gt; Out + Send,
+  </span>F: FnOnce(T1, T2, T3, T4, T5) -&gt; Out,
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
   T4: PlantSafe,
   T5: PlantSafe,
-  Out: Future&lt;Output = Res&gt; + Send,
+  Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
   <span class="kw">type </span>Output = Res::Output;
@@ -286,14 +286,14 @@
 <span class="kw">impl</span>&lt;F, T1, T2, T3, T4, T5, T6, Out, Res&gt;
   IntoRecipe&lt;(T1, T2, T3, T4, T5, T6, Out, Res)&gt; <span class="kw">for </span>F
 <span class="kw">where
-  </span>F: FnOnce(T1, T2, T3, T4, T5, T6) -&gt; Out + Send,
+  </span>F: FnOnce(T1, T2, T3, T4, T5, T6) -&gt; Out,
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
   T4: PlantSafe,
   T5: PlantSafe,
   T6: PlantSafe,
-  Out: Future&lt;Output = Res&gt; + Send,
+  Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
   <span class="kw">type </span>Output = Res::Output;
