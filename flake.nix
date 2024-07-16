@@ -18,6 +18,7 @@
         llvmPackages_latest.llvm
         llvmPackages_latest.lld
 
+        nodejs_22
         rust-bin.stable.latest.default
         rust-analyzer
         rustfmt

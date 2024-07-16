@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 use brew::prelude::*;
 use rayon::prelude::*;
 
@@ -15,5 +18,7 @@ fn main() {
 
   gardens
     .par_chunks(32)
+    // FIXME: I want to make a recipe of three ingredients that returns a
+    // `Blue` potion, but I can't figure out why this doesn't type check.
     .for_each(|gardens| gardens.feed_in_parallel(speed_feed))
 }

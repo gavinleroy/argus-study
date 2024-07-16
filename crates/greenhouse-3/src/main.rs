@@ -1,6 +1,9 @@
+#[cfg(test)]
+mod tests;
+
 use brew::prelude::*;
 
-async fn test_4(i1: Reflower, i2: Bubotuber) -> impl Potion {
+async fn fertilize(i1: Reflower, i2: Bubotuber) -> impl Potion {
   EmptyCauldron::new()
     .mix(i1)
     .boil()
@@ -12,6 +15,8 @@ async fn test_4(i1: Reflower, i2: Bubotuber) -> impl Potion {
 
 fn main() {
   Garden::<Alihotsy, 2>::new()
-    .add_feeding_schedule(Yearly, test_4)
+    // FIXME: I'm trying to make recipe of two ingredients that returns a `Blue`
+    // potion, but I can't get this to type check.
+    .add_feeding_schedule(Yearly, fertilize)
     .garden()
 }

@@ -1,6 +1,6 @@
 use crate::botanicals::*;
 
-pub trait PlantSafe: Ingredient {}
+pub(crate) trait PlantSafe: Ingredient {}
 pub trait Ingredient {}
 
 pub trait HumanFood {}

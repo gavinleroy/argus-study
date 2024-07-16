@@ -59,7 +59,7 @@ impl<IP: IntoPotion> IntoRecipe<()> for IP {
 impl<F, T1, Out, Res> IntoRecipe<(T1, Out, Res)> for F
 where
   F: FnOnce(T1) -> Out,
-  T1: PlantSafe,
+  T1: PlantSafe + Send,
   Out: Future<Output = Res>,
   Res: IntoPotion,
 {
@@ -70,7 +70,7 @@ impl<F, T1, T2, Out, Res> IntoRecipe<(T1, T2, Out, Res)> for F
 where
   F: FnOnce(T1, T2) -> Out,
   T1: PlantSafe,
-  T2: PlantSafe,
+  T2: PlantSafe + Send,
   Out: Future<Output = Res>,
   Res: IntoPotion,
 {
@@ -82,7 +82,7 @@ where
   F: FnOnce(T1, T2, T3) -> Out,
   T1: PlantSafe,
   T2: PlantSafe,
-  T3: PlantSafe,
+  T3: PlantSafe + Send,
   Out: Future<Output = Res>,
   Res: IntoPotion,
 {
@@ -95,7 +95,7 @@ where
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
-  T4: PlantSafe,
+  T4: PlantSafe + Send,
   Out: Future<Output = Res>,
   Res: IntoPotion,
 {
@@ -110,7 +110,7 @@ where
   T2: PlantSafe,
   T3: PlantSafe,
   T4: PlantSafe,
-  T5: PlantSafe,
+  T5: PlantSafe + Send,
   Out: Future<Output = Res>,
   Res: IntoPotion,
 {
@@ -126,7 +126,7 @@ where
   T3: PlantSafe,
   T4: PlantSafe,
   T5: PlantSafe,
-  T6: PlantSafe,
+  T6: PlantSafe + Send,
   Out: Future<Output = Res>,
   Res: IntoPotion,
 {
