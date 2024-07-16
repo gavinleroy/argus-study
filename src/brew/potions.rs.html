@@ -225,7 +225,7 @@
 <span class="kw">impl</span>&lt;F, T1, Out, Res&gt; IntoRecipe&lt;(T1, Out, Res)&gt; <span class="kw">for </span>F
 <span class="kw">where
   </span>F: FnOnce(T1) -&gt; Out,
-  T1: PlantSafe,
+  T1: PlantSafe + Send,
   Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
@@ -236,7 +236,7 @@
 <span class="kw">where
   </span>F: FnOnce(T1, T2) -&gt; Out,
   T1: PlantSafe,
-  T2: PlantSafe,
+  T2: PlantSafe + Send,
   Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
@@ -248,7 +248,7 @@
   </span>F: FnOnce(T1, T2, T3) -&gt; Out,
   T1: PlantSafe,
   T2: PlantSafe,
-  T3: PlantSafe,
+  T3: PlantSafe + Send,
   Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
@@ -261,7 +261,7 @@
   T1: PlantSafe,
   T2: PlantSafe,
   T3: PlantSafe,
-  T4: PlantSafe,
+  T4: PlantSafe + Send,
   Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
@@ -276,7 +276,7 @@
   T2: PlantSafe,
   T3: PlantSafe,
   T4: PlantSafe,
-  T5: PlantSafe,
+  T5: PlantSafe + Send,
   Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
@@ -292,7 +292,7 @@
   T3: PlantSafe,
   T4: PlantSafe,
   T5: PlantSafe,
-  T6: PlantSafe,
+  T6: PlantSafe + Send,
   Out: Future&lt;Output = Res&gt;,
   Res: IntoPotion,
 {
