@@ -22,19 +22,19 @@
 
 <span class="kw">use </span>proc_macro::TokenStream;
 
-<span class="attr">#[proc_macro_derive(HumanFood)]
-</span><span class="kw">pub fn </span>food_derive(input: TokenStream) -&gt; TokenStream {
+<span class="attr">#[proc_macro_derive(Mineral)]
+</span><span class="kw">pub fn </span>mineral_derive(input: TokenStream) -&gt; TokenStream {
   <span class="comment">// Parse the input tokens into a syntax tree
   </span><span class="kw">let </span>ast = syn::parse(input).unwrap();
 
   <span class="comment">// Build the impl
-  </span>impl_food(<span class="kw-2">&amp;</span>ast)
+  </span>impl_mineral(<span class="kw-2">&amp;</span>ast)
 }
 
-<span class="kw">fn </span>impl_food(ast: <span class="kw-2">&amp;</span>syn::DeriveInput) -&gt; TokenStream {
+<span class="kw">fn </span>impl_mineral(ast: <span class="kw-2">&amp;</span>syn::DeriveInput) -&gt; TokenStream {
   <span class="kw">let </span>name = <span class="kw-2">&amp;</span>ast.ident;
   <span class="kw">let </span>gen = <span class="macro">quote::quote!</span> {
-      <span class="kw">impl </span>HumanFood <span class="kw">for </span>#name {}
+      <span class="kw">impl </span>Mineral <span class="kw">for </span>#name {}
   };
   gen.into()
 }

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"derive":["HumanFood"]};
+window.SIDEBAR_ITEMS = {"derive":["Mineral"]};
