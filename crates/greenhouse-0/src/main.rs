@@ -2,22 +2,19 @@
 mod tests;
 
 use brew::prelude::*;
-use brew_macros::HumanFood;
+use brew_macros::Mineral;
 
-#[derive(HumanFood)]
-struct Meatball;
+// NOTE: The documentation said to mark these as `Mineral`s so that I
+// can mix them into a recipe. I'm not sure entirely what that means.
+#[derive(Mineral)]
+struct Nitrogen;
 
-#[derive(HumanFood)]
-struct Tomato;
+#[derive(Mineral)]
+struct Phosphorus;
 
-#[derive(HumanFood)]
-struct Pasta;
-
-async fn make_spaghetti(
-  i1: Liquified<Tomato>,
-  i2: Meatball,
-  i3: Pasta,
-) -> impl Remedy {
+async fn recipe(i1: Nitrogen, i2: Phosphorus, i3: Alihotsy) -> impl Remedy {
+  // NOTE: I definitely want to return a blue potion, you
+  // shouldn't need to change the function body.
   EmptyCauldron::new()
     .mix(i1)
     .mix(i2)
@@ -26,10 +23,10 @@ async fn make_spaghetti(
 }
 
 fn main() {
-  Garden::<Alihotsy, 1>::new()
-    // FIXME: I'm trying to make a recipe for spaghetti. I know that there needs
-    // to be Tomato, Meatball, and Pasta. Overall the recipe should be a remedy,
-    // but it doesn't type check and I'm not sure why.
-    .add_feeding_schedule(Daily, make_spaghetti)
+  Garden::<Wiggentree, 1>::new()
+    // FIXME: I'm trying to make a hearty recipe for my plants that contains
+    // `Phosphorus` and `Nitrogen`, key ingredients in fertilizer. It should
+    // also contain `Alihotsy` to help with leaf growth.
+    .add_feeding_schedule(Daily, recipe)
     .garden()
 }

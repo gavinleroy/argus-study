@@ -66,6 +66,6 @@ impl<'a, G: AsGarden, V: AsRef<[G]>> ParallelFeed<G> for V {
     R: IntoRecipe<S> + Send + Sync,
     R::Output: Send + Sync,
   {
-    todo!()
+    ()
   }
 }

@@ -16,7 +16,7 @@ where
     MixingCauldron<C::IngredientCount, <C::Temperature as RestDsl>::Output>;
 
   fn rest(self) -> Self::Output {
-    todo!()
+    MixingCauldron::new()
   }
 }
 
@@ -24,7 +24,7 @@ impl RestDsl for Hot {
   type Output = Warm;
 
   fn rest(self) -> Self::Output {
-    todo!()
+    Warm(())
   }
 }
 
@@ -32,7 +32,7 @@ impl RestDsl for Warm {
   type Output = Cold;
 
   fn rest(self) -> Self::Output {
-    todo!()
+    Cold(())
   }
 }
 
@@ -40,6 +40,6 @@ impl RestDsl for Cold {
   type Output = Cold;
 
   fn rest(self) -> Self::Output {
-    todo!()
+    Cold(())
   }
 }

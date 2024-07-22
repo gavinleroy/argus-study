@@ -1,13 +1,14 @@
-use super::*;
 use brew::describe_recipe;
 
+use super::*;
+
 describe_recipe! {
-  dirty_cake_spec
+  spec
     [[botanical Shrivelfig]
-     [botanical Wiggentree]] ==> Poison
+     [botanical Wiggentree]] ==> Potion
 }
 
 #[test]
 fn is_correct() {
-  dirty_cake_spec(dirty_cake);
+  spec(secret_recipe);
 }

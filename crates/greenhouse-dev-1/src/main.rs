@@ -7,16 +7,15 @@ mod tests;
 use brew::prelude::*;
 use brew_macros::*;
 
-// TODO: make a new recipe `dirty_cake` that combines the following ingredients
-// in this order to make a `Poison`.
-//
-// - Shrivelfig
-// - Wiggentree
-//
-// Additionally, your recipe must boil the ingredients at least once.
-
 fn main() {
   Garden::<Dittany, 1024>::new()
-    .add_feeding_schedule(Daily, dirty_cake)
+    // TODO: make a new recipe, called `secret_recipe` that combines the
+    // following ingredients and pours into a `Pink` potion. This should be used
+    // as a `Daily` feeding schedule.
+    //
+    // - Shrivelfig
+    // - Wiggentree
+    //
+    // NOTE: the recipe also says that the ingredients must be boiled at least once.
     .garden()
 }

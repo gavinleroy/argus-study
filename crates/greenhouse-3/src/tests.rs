@@ -5,10 +5,10 @@ use super::*;
 describe_recipe! {
   spec
     [[botanical Reflower]
-     [botanical Bubotuber]] ==> Potion
+     [mineral Nitrogen]] ==> Potion
 }
 
 #[test]
 fn is_correct() {
-  spec(fertilize);
+  spec(supplement);
 }

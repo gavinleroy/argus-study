@@ -16,6 +16,6 @@ where
   type Output =
     MixingCauldron<<C::IngredientCount as Add1>::Output, C::Temperature>;
   fn mix_with(self, _rhs: Rhs) -> Self::Output {
-    todo!()
+    MixingCauldron::new()
   }
 }

@@ -65,7 +65,7 @@ macro_rules! munch {
     $crate::munch!([ $($tts)* ]; [$($ts,)* $b]; $f, $ret);
   };
 
-  ([[food $b:ty] $($tts:tt)*]; [$($ts:ty),*]; $f:ident, $ret:ident) => {
-    $crate::munch!([ $($tts)* ]; [$($ts,)* Liquified<$b>]; $f, $ret);
+  ([[mineral $b:ty] $($tts:tt)*]; [$($ts:ty),*]; $f:ident, $ret:ident) => {
+    $crate::munch!([ $($tts)* ]; [$($ts,)* Fertilizer<$b>]; $f, $ret);
   };
 }

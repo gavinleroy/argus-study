@@ -1,15 +1,16 @@
-use super::*;
 use brew::describe_recipe;
 
+use super::*;
+
 describe_recipe! {
-  gloop_spec
+  spec
     [[botanical Reflower]
-     [food Mozerella]
+     [mineral Phosphorus]
      [botanical Alihotsy]
      [botanical Shrivelfig]] ==> Remedy
 }
 
 #[test]
 fn is_correct() {
-  gloop_spec(gloop);
+  spec(secret_recipe);
 }

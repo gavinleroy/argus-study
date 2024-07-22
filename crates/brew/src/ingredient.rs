@@ -1,13 +1,25 @@
+use std::marker::PhantomData;
+
 use crate::botanicals::*;
 
 pub(crate) trait PlantSafe: Ingredient {}
 pub trait Ingredient {}
 
-pub trait HumanFood {}
+pub trait Mineral {}
 
-pub struct Liquified<F>(std::marker::PhantomData<F>);
+pub struct Fertilizer<F>(PhantomData<F>);
 
 impl<B> Ingredient for B {}
 
-impl<B: Botanical> PlantSafe for B {}
-impl<F: HumanFood> PlantSafe for Liquified<F> {}
+crate::impl_as! {
+  PlantSafe ==>
+  Dittany,
+  Aconite,
+  Wiggentree,
+  Alihotsy,
+  Shrivelfig,
+  Bubotuber,
+  Reflower
+}
+
+impl<M: Mineral> PlantSafe for Fertilizer<M> {}

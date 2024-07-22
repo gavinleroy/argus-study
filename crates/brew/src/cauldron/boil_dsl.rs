@@ -14,6 +14,6 @@ where
   type Output = MixingCauldron<C::IngredientCount, Hot>;
 
   fn boil(self) -> Self::Output {
-    todo!()
+    MixingCauldron::new()
   }
 }

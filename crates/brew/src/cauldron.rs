@@ -1,3 +1,5 @@
+use std::marker::PhantomData;
+
 use crate::{count::*, ingredient::*, potions::*};
 
 mod boil_dsl;
@@ -99,10 +101,16 @@ pub struct MixingCauldron<C: Count, T: Temperature>(
   std::marker::PhantomData<(C, T)>,
 );
 
+impl<C: Count, T: Temperature> MixingCauldron<C, T> {
+  pub(self) fn new() -> MixingCauldron<C, T> {
+    MixingCauldron(PhantomData)
+  }
+}
+
 pub struct EmptyCauldron;
 
 impl EmptyCauldron {
   pub fn new() -> MixingCauldron<Zero, Cold> {
-    MixingCauldron(std::marker::PhantomData)
+    MixingCauldron(PhantomData)
   }
 }
