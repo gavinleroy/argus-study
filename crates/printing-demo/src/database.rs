@@ -28,4 +28,8 @@ impl<T> Database<T> {
     pub fn insert(&mut self, value: T) {
         self.values.push(value);
     }
+
+    pub fn buffer(&self) -> &Vec<T> {
+        self.values.as_slice()
+    }
 }
