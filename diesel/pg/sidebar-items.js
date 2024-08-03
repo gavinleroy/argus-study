@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["CopyFormat","CopyHeader"],"mod":["data_types","expression","sql_types"],"struct":["CopyFromQuery","CopyToQuery","DistinctOnClause","Pg","PgConnection","PgQueryBuilder","PgRowByRowLoadingMode","PgTypeMetadata","PgValue","TransactionBuilder"],"trait":["CopyTarget","OrderDecorator","PgMetadataLookup"]};

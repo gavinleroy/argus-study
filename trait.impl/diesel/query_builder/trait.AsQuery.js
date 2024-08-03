@@ -1,4 +1,0 @@
-(function() {var implementors = {
-"diesel":[],
-"diesel_0":[["impl <a class=\"trait\" href=\"diesel/query_builder/trait.AsQuery.html\" title=\"trait diesel::query_builder::AsQuery\">AsQuery</a> for <a class=\"struct\" href=\"diesel_0/schema/colors/struct.table.html\" title=\"struct diesel_0::schema::colors::table\">table</a>"],["impl <a class=\"trait\" href=\"diesel/query_builder/trait.AsQuery.html\" title=\"trait diesel::query_builder::AsQuery\">AsQuery</a> for <a class=\"struct\" href=\"diesel_0/schema/coordinates/struct.table.html\" title=\"struct diesel_0::schema::coordinates::table\">table</a>"]]
-};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
