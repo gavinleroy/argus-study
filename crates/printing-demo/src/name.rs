@@ -12,10 +12,10 @@ impl<T> Pair<T> {
   }
 }
 
-// impl<T: fmt::Display> fmt::Display for Pair<T> {
-//   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-//     write!(f, "({}, {})", self.x, self.y)
-//   }
-// }
+impl<T: fmt::Display> fmt::Display for Pair<T> {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    write!(f, "({}, {})", self.x, self.y)
+  }
+}
 
 pub type Name<'a> = Pair<&'a str>;

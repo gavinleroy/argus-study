@@ -20,7 +20,7 @@ fn main() {
   actors.insert(Name::new("Jon", "Cryer"));
   actors.insert(Name::new("Andrew", "McCarthy"));
 
-  print_to_log(actors);
+  print_to_log(actors.buffer());
 
   pretty::in_pink(&actors);
 }

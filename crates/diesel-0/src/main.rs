@@ -1,21 +1,17 @@
+mod lib;
+
 // Function to connect to database.
-use diesel_0::establish_connection;
-
-// Bring column names of the table into scope
-use diesel_0::schema::coordinates::{
-  coord_id, dsl::coordinates, xcoord, ycoord,
-};
-
 // Define the signature of the SQL function we want to call:
-use diesel::define_sql_function;
-use diesel::sql_types::Integer;
+use diesel::{define_sql_function, sql_types::Integer};
+use lib::establish_connection;
+// Bring column names of the table into scope
+use lib::schema::coordinates::{coord_id, dsl::coordinates, xcoord, ycoord};
 define_sql_function!(fn distance_from_origin(re: Integer,im: Integer) -> Float);
 define_sql_function!(fn shortest_distance() -> Record<(Integer,Float)>);
 define_sql_function!(fn longest_distance() -> Record<(Integer,Float)>);
 
 // Needed to select, construct the query and submit it.
-use diesel::select;
-use diesel::{QueryDsl, RunQueryDsl};
+use diesel::{select, QueryDsl, RunQueryDsl};
 
 fn main() {
   let connection = &mut establish_connection();
