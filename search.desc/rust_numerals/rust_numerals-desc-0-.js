@@ -1,0 +1,1 @@
+searchState.loadedDescShard("rust_numerals", 0, "Converts a given integer <code>number</code> to its cardinal string …")

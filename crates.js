@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["brew","brew_macros","proc_macro2","quote","space","syn","unicode_ident"];
+window.ALL_CRATES = ["ahash","allocator_api2","bevy_utils","bevy_utils_proc_macros","brew","brew_macros","cfg_if","getrandom","hashbrown","libc","log","numerical_macros","once_cell","pin_project_lite","proc_macro2","quote","rust_numerals","serde","serde_derive","space","space_macros","syn","thread_local","tracing","tracing_attributes","tracing_core","unicode_ident","web_time","zerocopy"];

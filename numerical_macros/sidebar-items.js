@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":["define_numeric_system","for_nums_p"]};
