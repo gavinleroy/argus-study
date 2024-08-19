@@ -2,14 +2,13 @@
 mod tests;
 
 use brew::prelude::*;
-use brew_macros::Mineral;
 
 #[derive(Mineral)]
 struct Nitrogen;
 
 // NOTE: The recipe calls for a `Nitrogen`-based fertilizer and
 // `Reflower`. The signature shouldn't need to be tweaked.
-async fn supplement(i1: Reflower, i2: Fertilizer<Nitrogen>) -> impl Potion {
+async fn supplement(i1: Reflower, i2: Fertilizer<Nitrogen>) -> Blue {
   EmptyCauldron::new()
     .mix(i1)
     .boil()
@@ -17,7 +16,7 @@ async fn supplement(i1: Reflower, i2: Fertilizer<Nitrogen>) -> impl Potion {
     .rest()
     .rest()
     // NOTE: I definitely want to pour a `Blue` potion here, don't change this line.
-    .pour_as::<Blue>()
+    .pour_as()
 }
 
 fn main() {

@@ -1361,6 +1361,10 @@ dependencies = [
 [[package]]
 name = "brew"
 version = "0.1.0"
+dependencies = [
+ "brew-macros",
+ "numerical-macros",
+]
 
 [[package]]
 name = "brew-macros"
@@ -2212,6 +2216,42 @@ dependencies = [
 ]
 
 [[package]]
+name = "galaxy-0"
+version = "0.1.0"
+dependencies = [
+ "space",
+ "space-macros",
+]
+
+[[package]]
+name = "galaxy-1"
+version = "0.1.0"
+dependencies = [
+ "space",
+]
+
+[[package]]
+name = "galaxy-2"
+version = "0.1.0"
+dependencies = [
+ "space",
+]
+
+[[package]]
+name = "galaxy-3"
+version = "0.1.0"
+dependencies = [
+ "space",
+]
+
+[[package]]
+name = "galaxy-4"
+version = "0.1.0"
+dependencies = [
+ "space",
+]
+
+[[package]]
 name = "generic-array"
 version = "0.14.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2437,7 +2477,6 @@ name = "greenhouse-0"
 version = "0.1.0"
 dependencies = [
  "brew",
- "brew-macros",
 ]
 
 [[package]]
@@ -2445,7 +2484,6 @@ name = "greenhouse-1"
 version = "0.1.0"
 dependencies = [
  "brew",
- "brew-macros",
 ]
 
 [[package]]
@@ -2453,7 +2491,6 @@ name = "greenhouse-2"
 version = "0.1.0"
 dependencies = [
  "brew",
- "brew-macros",
 ]
 
 [[package]]
@@ -2461,7 +2498,6 @@ name = "greenhouse-3"
 version = "0.1.0"
 dependencies = [
  "brew",
- "brew-macros",
 ]
 
 [[package]]
@@ -2469,7 +2505,6 @@ name = "greenhouse-4"
 version = "0.1.0"
 dependencies = [
  "brew",
- "brew-macros",
  "rayon",
 ]
 
@@ -3270,6 +3305,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "numerical-macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "rust-numerals",
+ "syn 2.0.66",
+]
+
+[[package]]
 name = "objc"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4019,6 +4064,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "rust-numerals"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "66422db5b68622712db06379057dcf3887cc1d3d7cacd0fb37c953cd87e82ed6"
+
+[[package]]
 name = "rustc-demangle"
 version = "0.1.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4298,6 +4349,20 @@ dependencies = [
 [[package]]
 name = "space"
 version = "0.1.0"
+dependencies = [
+ "bevy_utils",
+ "numerical-macros",
+ "space-macros",
+]
+
+[[package]]
+name = "space-macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.66",
+]
 
 [[package]]
 name = "spin"

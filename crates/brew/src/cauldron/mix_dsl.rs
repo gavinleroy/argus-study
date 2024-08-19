@@ -1,5 +1,10 @@
+use std::ops::Add;
+
 use super::{Cauldron, MixingCauldron};
-use crate::{count::Add1, ingredient::Ingredient};
+use crate::{
+  count::{Num, One},
+  ingredient::Ingredient,
+};
 
 pub trait MixDsl<Rhs> {
   type Output;
@@ -10,11 +15,12 @@ pub trait MixDsl<Rhs> {
 impl<C, Rhs> MixDsl<Rhs> for C
 where
   C: Cauldron,
-  C::IngredientCount: Add1,
+  C::IngredientCount: Add<One>,
+  <C::IngredientCount as Add<One>>::Output: Num,
   Rhs: Ingredient,
 {
   type Output =
-    MixingCauldron<<C::IngredientCount as Add1>::Output, C::Temperature>;
+    MixingCauldron<<C::IngredientCount as Add<One>>::Output, C::Temperature>;
   fn mix_with(self, _rhs: Rhs) -> Self::Output {
     MixingCauldron::new()
   }

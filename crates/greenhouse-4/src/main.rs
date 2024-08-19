@@ -6,14 +6,14 @@ use rayon::prelude::*;
 
 // NOTE: The recipe calls for `Dittany`, `Shrivelfig`, and `Reflower` to be mixed
 // into the cauldron. The signature may need to be tweaked to make this recipe work.
-async fn fertilize(i1: Dittany, i2: Shrivelfig, i3: Reflower) -> impl Potion {
+async fn fertilize(i1: Dittany, i2: Shrivelfig, i3: Reflower) -> Blue {
   EmptyCauldron::new()
     .mix(i1)
     .mix(i2)
     .mix(i3)
     // NOTE: I definitely want to pour the result as
     // a `Blue` potions, this shouldn't change.
-    .pour_as::<Blue>()
+    .pour_as()
 }
 
 fn main() {

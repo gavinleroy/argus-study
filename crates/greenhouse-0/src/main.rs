@@ -2,7 +2,6 @@
 mod tests;
 
 use brew::prelude::*;
-use brew_macros::Mineral;
 
 // NOTE: The documentation said to mark these as `Mineral`s so that I
 // can mix them into a recipe. I'm not sure entirely what that means.
@@ -12,14 +11,10 @@ struct Nitrogen;
 #[derive(Mineral)]
 struct Phosphorus;
 
-async fn recipe(i1: Nitrogen, i2: Phosphorus, i3: Alihotsy) -> impl Remedy {
+async fn recipe(i1: Nitrogen, i2: Phosphorus, i3: Alihotsy) -> Blue {
   // NOTE: I definitely want to return a blue potion, you
   // shouldn't need to change the function body.
-  EmptyCauldron::new()
-    .mix(i1)
-    .mix(i2)
-    .mix(i3)
-    .pour_as::<Blue>()
+  EmptyCauldron::new().mix(i1).mix(i2).mix(i3).pour_as()
 }
 
 fn main() {

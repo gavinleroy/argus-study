@@ -1,14 +1,14 @@
-pub fn add(left: usize, right: usize) -> usize {
-  left + right
-}
+#![allow(unused_variables, dead_code, unused_imports)]
 
-#[cfg(test)]
-mod tests {
-  use super::*;
+mod debris;
+mod dir;
+mod num;
+mod pos;
+mod probe;
+mod travel;
 
-  #[test]
-  fn it_works() {
-    let result = add(2, 2);
-    assert_eq!(result, 4);
-  }
+pub mod prelude {
+  pub use space_macros::*;
+
+  pub use crate::{debris::*, dir::*, num::*, pos::*, probe::*, travel::*};
 }

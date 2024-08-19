@@ -1,76 +1,66 @@
-use super::{Cauldron, Cold, CoolEnough, NonEmpty, Warm};
+use super::{Cauldron, Cold, NonEmpty, Warm};
 use crate::{count::*, potions::*};
 
-pub trait PourDsl<P: Potion> {
+pub struct IsColdRemedy;
+pub struct IsWarmRemedy;
+pub struct IsColdPoison;
+pub struct IsWarmPoison;
+
+pub trait PourDsl<P: Potion, Marker> {
   /// The type returned by the `.pour()` method.
   type Output;
 
   fn pour(self) -> Self::Output;
 }
 
-impl<C, P> PourDsl<P> for C
+impl<C, R, Count> PourDsl<R, IsColdRemedy> for C
 where
-  C: Cauldron,
-  P: Potion,
-  C::IngredientCount: NonEmpty,
-  C::Temperature: CoolEnough,
-  (C::IngredientCount, C::Temperature): PourDsl<P>,
+  C: Cauldron<Temperature = Cold, IngredientCount = Count>,
+  R: Remedy,
+  Count: NonEmpty + IsOdd,
 {
-  type Output = <(C::IngredientCount, C::Temperature) as PourDsl<P>>::Output;
+  type Output = R;
 
   fn pour(self) -> Self::Output {
     todo!()
   }
 }
 
-macro_rules! impl_remedy {
-  (@ $tmp:ident : $($c:ty),*) => {
-    $(
-      impl<R> PourDsl<R> for ($c, $tmp)
-        where
-        R: Remedy,
-      {
-        type Output = R;
-        fn pour(self) -> Self::Output {
-          todo!()
-        }
-      }
-    )*
+impl<C, R, Count> PourDsl<R, IsWarmRemedy> for C
+where
+  C: Cauldron<Temperature = Warm, IngredientCount = Count>,
+  R: Remedy,
+  Count: NonEmpty + IsEven,
+{
+  type Output = R;
+
+  fn pour(self) -> Self::Output {
+    todo!()
   }
 }
 
-macro_rules! impl_poison {
-  (@ $tmp:ident : $($c:ty),*) => {
-    $(
-      impl<P> PourDsl<P> for ($c, $tmp)
-        where
-        P: Poison,
-      {
-        type Output = P;
-        fn pour(self) -> Self::Output {
-          todo!()
-        }
-      }
-    )*
+impl<C, P, Count> PourDsl<P, IsColdPoison> for C
+where
+  C: Cauldron<Temperature = Cold, IngredientCount = Count>,
+  P: Poison,
+  Count: NonEmpty + IsEven,
+{
+  type Output = P;
+
+  fn pour(self) -> Self::Output {
+    todo!()
   }
 }
 
-impl_remedy! {
-  @ Cold :
-  One, Three, Five
-}
+impl<C, P, Count> PourDsl<P, IsWarmPoison> for C
+where
+  C: Cauldron<Temperature = Warm, IngredientCount = Count>,
+  P: Poison,
+  Count: NonEmpty + IsOdd,
+{
+  type Output = P;
 
-impl_remedy! {
-  @ Warm :
-  Two, Four, Six
-}
-
-impl_poison! {
-  @ Cold :
-  Two, Four, Six
-}
-
-impl_poison! {
-  @ Warm :
-  One, Three, Five
+  fn pour(self) -> Self::Output {
+    todo!()
+  }
 }

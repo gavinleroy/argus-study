@@ -9,7 +9,8 @@ mod rest_dsl;
 
 mod types {
   use super::*;
-  pub type Pour<Source, Poured> = <Source as pour_dsl::PourDsl<Poured>>::Output;
+  pub type Pour<Source, Poured, Marker> =
+    <Source as pour_dsl::PourDsl<Poured, Marker>>::Output;
   pub type Mix<Source, With> = <Source as mix_dsl::MixDsl<With>>::Output;
   pub type Boil<Source> = <Source as boil_dsl::BoilDsl>::Output;
   pub type Rest<Source> = <Source as rest_dsl::RestDsl>::Output;
@@ -26,14 +27,11 @@ crate::make_simple! {
   Hot
 }
 
-trait CoolEnough {}
-crate::impl_as!(CoolEnough ==> Cold, Warm);
-
 pub trait BrewDsl: Sized {
-  fn pour_as<P>(self) -> types::Pour<Self, P>
+  fn pour_as<P, Marker>(self) -> types::Pour<Self, P, Marker>
   where
-    Self: methods::PourDsl<P>,
     P: Potion,
+    Self: methods::PourDsl<P, Marker>,
   {
     methods::PourDsl::pour(self)
   }
@@ -76,14 +74,14 @@ crate::impl_as! {
 }
 
 pub trait Cauldron {
-  type IngredientCount: Count;
+  type IngredientCount: Num;
   type Temperature: Temperature;
 }
 
 impl<C: Cauldron> BrewDsl for C {}
 impl<C, T> Cauldron for MixingCauldron<C, T>
 where
-  C: Count,
+  C: Num,
   T: Temperature,
 {
   type IngredientCount = C;
@@ -97,11 +95,11 @@ where
 {
 }
 
-pub struct MixingCauldron<C: Count, T: Temperature>(
+pub struct MixingCauldron<C: Num, T: Temperature>(
   std::marker::PhantomData<(C, T)>,
 );
 
-impl<C: Count, T: Temperature> MixingCauldron<C, T> {
+impl<C: Num, T: Temperature> MixingCauldron<C, T> {
   pub(self) fn new() -> MixingCauldron<C, T> {
     MixingCauldron(PhantomData)
   }

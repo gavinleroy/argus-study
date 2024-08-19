@@ -6,6 +6,8 @@ mod potions;
 mod time;
 
 pub mod prelude {
+  pub use brew_macros::*;
+
   pub use crate::{
     botanicals::*, cauldron::*, ingredient::*, potions::*, time::*,
   };

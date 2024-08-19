@@ -5,5 +5,4 @@ edition = "2021"
 
 [dependencies]
 brew = { version = "0.1.0", path = "../brew" }
-brew-macros = { version = "0.1.0", path = "../brew-macros" }
 rayon = "1.10.0"
