@@ -5,6 +5,7 @@ var srcIndex = new Map(JSON.parse('[\
 ["bevy_utils_proc_macros",["",[],["lib.rs"]]],\
 ["brew",["",[["cauldron",[],["boil_dsl.rs","mix_dsl.rs","pour_dsl.rs","rest_dsl.rs"]]],["botanicals.rs","cauldron.rs","count.rs","ingredient.rs","lib.rs","potions.rs","time.rs"]]],\
 ["brew_macros",["",[],["lib.rs"]]],\
+["byteorder",["",[],["io.rs","lib.rs"]]],\
 ["cfg_if",["",[],["lib.rs"]]],\
 ["getrandom",["",[],["error.rs","error_impls.rs","lazy.rs","lib.rs","linux_android_with_fallback.rs","use_file.rs","util.rs","util_libc.rs"]]],\
 ["hashbrown",["",[["external_trait_impls",[],["mod.rs","serde.rs"]],["raw",[],["alloc.rs","bitmask.rs","mod.rs","sse2.rs"]]],["lib.rs","macros.rs","map.rs","scopeguard.rs","set.rs","table.rs"]]],\
@@ -18,15 +19,16 @@ var srcIndex = new Map(JSON.parse('[\
 ["rust_numerals",["",[],["lib.rs"]]],\
 ["serde",["",[["de",[],["format.rs","ignored_any.rs","impls.rs","mod.rs","seed.rs","size_hint.rs","value.rs"]],["private",[],["de.rs","doc.rs","mod.rs","ser.rs"]],["ser",[],["fmt.rs","impls.rs","impossible.rs","mod.rs"]]],["integer128.rs","lib.rs","macros.rs"]]],\
 ["serde_derive",["",[["internals",[],["ast.rs","attr.rs","case.rs","check.rs","ctxt.rs","mod.rs","receiver.rs","respan.rs","symbol.rs"]]],["bound.rs","de.rs","dummy.rs","fragment.rs","lib.rs","pretend.rs","ser.rs","this.rs"]]],\
-["space",["",[["travel",[],["blast_dsl.rs","charge_dsl.rs","collect_dsl.rs","move_dsl.rs"]]],["debris.rs","dir.rs","lib.rs","num.rs","pos.rs","probe.rs","travel.rs"]]],\
+["space",["",[["travel",[],["blast_dsl.rs","collect_dsl.rs","fuel_dsl.rs","move_dsl.rs"]]],["debris.rs","dir.rs","lib.rs","num.rs","planet.rs","pos.rs","probe.rs","travel.rs"]]],\
 ["space_macros",["",[],["lib.rs"]]],\
-["syn",["",[["gen",[],["clone.rs","debug.rs","eq.rs","fold.rs","hash.rs","visit.rs","visit_mut.rs"]]],["attr.rs","bigint.rs","buffer.rs","classify.rs","custom_keyword.rs","custom_punctuation.rs","data.rs","derive.rs","discouraged.rs","drops.rs","error.rs","export.rs","expr.rs","ext.rs","file.rs","fixup.rs","generics.rs","group.rs","ident.rs","item.rs","lib.rs","lifetime.rs","lit.rs","lookahead.rs","mac.rs","macros.rs","meta.rs","op.rs","parse.rs","parse_macro_input.rs","parse_quote.rs","pat.rs","path.rs","precedence.rs","print.rs","punctuated.rs","restriction.rs","sealed.rs","span.rs","spanned.rs","stmt.rs","thread.rs","token.rs","tt.rs","ty.rs","verbatim.rs","whitespace.rs"]]],\
+["syn",["",[["gen",[],["clone.rs","debug.rs","eq.rs","hash.rs","visit_mut.rs"]]],["attr.rs","bigint.rs","buffer.rs","classify.rs","custom_keyword.rs","custom_punctuation.rs","data.rs","derive.rs","discouraged.rs","drops.rs","error.rs","export.rs","expr.rs","ext.rs","file.rs","fixup.rs","generics.rs","group.rs","ident.rs","item.rs","lib.rs","lifetime.rs","lit.rs","lookahead.rs","mac.rs","macros.rs","meta.rs","op.rs","parse.rs","parse_macro_input.rs","parse_quote.rs","pat.rs","path.rs","precedence.rs","print.rs","punctuated.rs","restriction.rs","sealed.rs","span.rs","spanned.rs","stmt.rs","thread.rs","token.rs","tt.rs","ty.rs","verbatim.rs","whitespace.rs"]]],\
 ["thread_local",["",[],["cached.rs","lib.rs","thread_id.rs","unreachable.rs"]]],\
 ["tracing",["",[],["dispatcher.rs","field.rs","instrument.rs","level_filters.rs","lib.rs","macros.rs","span.rs","stdlib.rs","subscriber.rs"]]],\
 ["tracing_attributes",["",[],["attr.rs","expand.rs","lib.rs"]]],\
 ["tracing_core",["",[],["callsite.rs","dispatcher.rs","event.rs","field.rs","lazy.rs","lib.rs","metadata.rs","parent.rs","span.rs","stdlib.rs","subscriber.rs"]]],\
 ["unicode_ident",["",[],["lib.rs","tables.rs"]]],\
 ["web_time",["",[],["lib.rs"]]],\
-["zerocopy",["",[["third_party",[["rust",[],["layout.rs"]]]]],["lib.rs","macro_util.rs","macros.rs","post_monomorphization_compile_fail_tests.rs","util.rs","wrappers.rs"]]]\
+["zerocopy",["",[["third_party",[["rust",[],["layout.rs"]]]]],["byteorder.rs","lib.rs","macro_util.rs","macros.rs","post_monomorphization_compile_fail_tests.rs","util.rs","wrappers.rs"]]],\
+["zerocopy_derive",["",[],["ext.rs","lib.rs","repr.rs"]]]\
 ]'));
 createSrcSidebar();
