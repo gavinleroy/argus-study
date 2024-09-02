@@ -9,12 +9,10 @@ pub trait MoveDsl<D> {
 
 impl<R, D> MoveDsl<D> for R
 where
-  R: Rocket,
+  R: IntergalacticTravel,
   D: Direction,
-  // You can only move a rocket if it has charge `y == 0`
-  R::Charge: IsZero,
 {
-  type Output = IntergalacticRocket<R::Location, R::Charge, R::Fuel, D>;
+  type Output = Rocket<R::Location, R::Fuel, D>;
 
   fn r#move(self, d: D) -> Self::Output {
     todo!()

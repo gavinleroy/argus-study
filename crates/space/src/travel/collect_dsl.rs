@@ -18,7 +18,7 @@ where
   X: IsEven,
   Y: IsOdd,
   L: Pos<X = X, Y = Y>,
-  R: Rocket<Location = L>,
+  R: IntergalacticTravel<Location = L>,
   C: IntoProbeConfigs<P, Item = Item>,
 {
   fn collect(self, config: C) {
@@ -31,7 +31,7 @@ where
   X: IsOdd,
   Y: IsEven,
   L: Pos<X = X, Y = Y>,
-  R: Rocket<Location = L>,
+  R: IntergalacticTravel<Location = L>,
   C: IntoProbeConfigs<P, Item = Item>,
 {
   fn collect(self, config: C) {

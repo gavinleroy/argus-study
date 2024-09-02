@@ -1,10 +1,9 @@
 use std::{convert::Infallible, time::Duration};
 
-use axum::http::{HeaderMap, StatusCode};
 use axum::{
   body::{Body, Bytes},
   extract::State,
-  http::{HeaderName, HeaderValue},
+  http::{HeaderMap, HeaderName, HeaderValue, StatusCode},
   response::{IntoResponse, Response},
   routing::get,
   Router,
@@ -30,7 +29,16 @@ async fn main() {
 
   let app = Router::new()
     .route("/", get(proxy_via_reqwest))
-    .route("/stream", get(stream_some_data))
+    .route(
+      "/stream",
+      get(|| {
+        let stream = tokio_stream::iter(0 .. 5)
+          .throttle(Duration::from_secs(1))
+          .map(|n| n.to_string())
+          .map(Ok::<_, Infallible>);
+        Body::from_stream(stream)
+      }),
+    )
     // Add some logging so we can see the streams going through
     .layer(TraceLayer::new_for_http().on_body_chunk(
       |chunk: &Bytes, _latency: Duration, _span: &Span| {
@@ -73,12 +81,4 @@ async fn proxy_via_reqwest(State(client): State<Client>) -> Response {
     .body(Body::from_stream(reqwest_response.bytes_stream()))
     // This unwrap is fine because the body is empty here
     .unwrap()
-}
-
-fn stream_some_data() -> Body {
-  let stream = tokio_stream::iter(0..5)
-    .throttle(Duration::from_secs(1))
-    .map(|n| n.to_string())
-    .map(Ok::<_, Infallible>);
-  Body::from_stream(stream)
 }

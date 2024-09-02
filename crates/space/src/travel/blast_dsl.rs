@@ -11,17 +11,15 @@ pub trait BlastDsl<X> {
 
 impl<R, X> BlastDsl<X> for R
 where
-  R: Rocket,
+  R: IntergalacticTravel,
   X: Num,
-  // You can only move a rocket `x` if it has a charge `y >= x`
-  X: LessOrEqual<R::Charge>,
+  X: LessOrEqual<R::Fuel>,
   R::Location: PosUpdate<R::Dir, X>,
-  R::Charge: Sub<X>,
+  R::Fuel: Sub<X>,
 {
-  type Output = IntergalacticRocket<
+  type Output = Rocket<
     <R::Location as PosUpdate<R::Dir, X>>::Output,
-    <R::Charge as Sub<X>>::Output,
-    R::Fuel,
+    <R::Fuel as Sub<X>>::Output,
     R::Dir,
   >;
 

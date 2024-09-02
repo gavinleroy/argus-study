@@ -1,13 +1,8 @@
 [package]
 name = "diesel-1"
 version = "0.1.0"
-edition = "2018"
+edition = "2021"
 publish = false
 
 [dependencies]
-diesel = { version = "2.0.0", features = ["postgres"] }
-
-[[bin]]
-name = "diesel-1"
-path = "src/main.rs"
-doc = false
+diesel = { version = "=2.0.0", features = ["postgres"] }

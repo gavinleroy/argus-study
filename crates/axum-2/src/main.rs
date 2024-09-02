@@ -39,8 +39,8 @@ async fn print_request_body(
   next: Next,
 ) -> Result<impl IntoResponse, Response> {
   let request = buffer_request_body(request).await?;
-
-  Ok(next.run(request).await)
+  let value = next.run(request).await;
+  Ok(value)
 }
 
 // the trick is to take the request apart, buffer the body, do what you need to do, then put
@@ -66,9 +66,8 @@ fn do_thing_with_request_body(bytes: Bytes) {
   tracing::debug!(body = ?bytes);
 }
 
-async fn handler(BufferRequestBody(body): BufferRequestBody, rest: Bytes) {
+async fn handler(BufferRequestBody(body): BufferRequestBody) {
   tracing::debug!(?body, "handler received body");
-  tracing::debug!(?rest, "Bytes trailing the body");
 }
 
 // extractor that shows how to consume the request body upfront

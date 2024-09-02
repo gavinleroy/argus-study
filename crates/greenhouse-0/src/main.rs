@@ -1,6 +1,3 @@
-#[cfg(test)]
-mod tests;
-
 use brew::prelude::*;
 
 // NOTE: The documentation said to mark these as `Mineral`s so that I
@@ -17,11 +14,12 @@ async fn recipe(i1: Nitrogen, i2: Phosphorus, i3: Alihotsy) -> Blue {
   EmptyCauldron::new().mix(i1).mix(i2).mix(i3).pour_as()
 }
 
+// TASK: Create a garden of wiggentrees and feed them daily with the following 
+// fertilizer mixture recipe: 1 part nitrogen, 1 part phosphorus, and 1 part alihotsy.
+// The resulting potion should be *blue*. 
+// The below setup code should not need modification.
 fn main() {
   Garden::<Wiggentree, 1>::new()
-    // FIXME: I'm trying to make a hearty recipe for my plants that contains
-    // `Phosphorus` and `Nitrogen`, key ingredients in fertilizer. It should
-    // also contain `Alihotsy` to help with leaf growth.
     .add_feeding_schedule(Daily, recipe)
     .garden()
 }

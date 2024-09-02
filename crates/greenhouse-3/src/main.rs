@@ -1,13 +1,8 @@
-#[cfg(test)]
-mod tests;
-
 use brew::prelude::*;
 
 #[derive(Mineral)]
 struct Nitrogen;
 
-// NOTE: The recipe calls for a `Nitrogen`-based fertilizer and
-// `Reflower`. The signature shouldn't need to be tweaked.
 async fn supplement(i1: Reflower, i2: Fertilizer<Nitrogen>) -> Blue {
   EmptyCauldron::new()
     .mix(i1)
@@ -15,14 +10,14 @@ async fn supplement(i1: Reflower, i2: Fertilizer<Nitrogen>) -> Blue {
     .mix(i2)
     .rest()
     .rest()
-    // NOTE: I definitely want to pour a `Blue` potion here, don't change this line.
     .pour_as()
 }
 
+// TASK: Create a garden of alihotsy and feed them yearly with the following
+// The recipe takes 1 parts reflower and 1 part nitrogen fertilizer, the result 
+// is a blue potion that really makes the alihotsies grow!
 fn main() {
   Garden::<Alihotsy, 2>::new()
-    // FIXME: I'm trying to make recipe of two ingredients that returns
-    // a `Blue` potion, but I can't get this to type check.
     .add_feeding_schedule(Yearly, supplement)
     .garden()
 }

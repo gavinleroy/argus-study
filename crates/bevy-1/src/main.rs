@@ -1,189 +1,66 @@
-//! Bevy QueryData example.
+//! Rendering a scene with baked lightmaps.
 
-use bevy::{
-  ecs::query::{QueryData, QueryFilter},
-  prelude::*,
-};
-use std::fmt::Debug;
+use bevy::pbr::Lightmap;
+use bevy::prelude::*;
 
 fn main() {
-  App::new()
-    .add_systems(Startup, spawn)
-    .add_systems(
-      Update,
-      (
-        print_components_read_only,
-        print_components_iter_mut,
-        print_components_iter,
-        print_components_tuple,
-      )
-        .chain(),
-    )
-    .run();
+    App::new()
+        .add_plugins(DefaultPlugins)
+        .insert_resource(AmbientLight::NONE)
+        .add_systems(Startup, setup)
+        .add_systems(Update, add_lightmaps_to_meshes)
+        .run();
 }
 
-#[derive(Component, Debug)]
-struct ComponentA;
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    commands.spawn(SceneBundle {
+        scene: asset_server
+            .load(GltfAssetLabel::Scene(0).from_asset("models/CornellBox/CornellBox.glb")),
+        ..default()
+    });
 
-#[derive(Component, Debug)]
-struct ComponentB;
-
-#[derive(Component, Debug)]
-struct ComponentC;
-
-#[derive(Component, Debug)]
-struct ComponentD;
-
-#[derive(Component, Debug)]
-struct ComponentZ;
-
-#[derive(QueryData)]
-#[query_data(derive(Debug))]
-struct ReadOnlyCustomQuery<T: Component + Debug, P: Component + Debug> {
-  entity: Entity,
-  a: &'static ComponentA,
-  b: Option<&'static ComponentB>,
-  nested: NestedQuery,
-  optional_nested: Option<NestedQuery>,
-  optional_tuple: Option<(&'static ComponentB, &'static ComponentZ)>,
-  generic: GenericQuery<T, P>,
-  empty: EmptyQuery,
+    commands.spawn(Camera3dBundle {
+        transform: Transform::from_xyz(-278.0, 273.0, 800.0),
+        ..default()
+    });
 }
 
-fn print_components_read_only(
-  query: Query<
-    ReadOnlyCustomQuery<ComponentC, ComponentD>,
-    CustomQueryFilter<ComponentC, ComponentD>,
-  >,
+fn add_lightmaps_to_meshes(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+    meshes: Query<
+        (Entity, Name, Handle<StandardMaterial>),
+        (With<Handle<Mesh>>, Without<Lightmap>),
+    >,
 ) {
-  println!("Print components (read_only):");
-  for e in &query {
-    println!("Entity: {:?}", e.entity);
-    println!("A: {:?}", e.a);
-    println!("B: {:?}", e.b);
-    println!("Nested: {:?}", e.nested);
-    println!("Optional nested: {:?}", e.optional_nested);
-    println!("Optional tuple: {:?}", e.optional_tuple);
-    println!("Generic: {:?}", e.generic);
-  }
-  println!();
-}
+    let exposure = 250.0;
+    for (entity, name, material) in meshes.iter() {
+        if &**name == "large_box" {
+            materials.get_mut(material).unwrap().lightmap_exposure = exposure;
+            commands.entity(entity).insert(Lightmap {
+                image: asset_server.load("lightmaps/CornellBox-Large.zstd.ktx2"),
+                ..default()
+            });
+            continue;
+        }
 
-/// If you are going to mutate the data in a query, you must mark it with the `mutable` attribute.
-/// The [`QueryData`] derive macro will still create a read-only version, which will be have `ReadOnly`
-/// suffix.
-/// Note: if you want to use derive macros with read-only query variants, you need to pass them with
-/// using the `derive` attribute.
-#[derive(QueryData)]
-#[query_data(mutable, derive(Debug))]
-struct CustomQuery<T: Component + Debug, P: Component + Debug> {
-  entity: Entity,
-  a: &'static mut ComponentA,
-  b: Option<&'static mut ComponentB>,
-  nested: NestedQuery,
-  optional_nested: Option<NestedQuery>,
-  optional_tuple: Option<(NestedQuery, &'static mut ComponentZ)>,
-  generic: GenericQuery<T, P>,
-  empty: EmptyQuery,
-}
+        if &**name == "small_box" {
+            materials.get_mut(material).unwrap().lightmap_exposure = exposure;
+            commands.entity(entity).insert(Lightmap {
+                image: asset_server.load("lightmaps/CornellBox-Small.zstd.ktx2"),
+                ..default()
+            });
+            continue;
+        }
 
-// This is a valid query as well, which would iterate over every entity.
-#[derive(QueryData)]
-#[query_data(derive(Debug))]
-struct EmptyQuery {
-  empty: (),
-}
-
-#[derive(QueryData)]
-#[query_data(derive(Debug))]
-struct NestedQuery {
-  c: &'static ComponentC,
-  d: Option<&'static ComponentD>,
-}
-
-#[derive(QueryData)]
-#[query_data(derive(Debug))]
-struct GenericQuery<T: Component, P: Component> {
-  generic: (&'static T, &'static P),
-}
-
-#[derive(QueryFilter)]
-struct CustomQueryFilter<T: Component, P: Component> {
-  _c: With<ComponentC>,
-  _d: With<ComponentD>,
-  _or: Or<(Added<ComponentC>, Changed<ComponentD>, Without<ComponentZ>)>,
-  _generic_tuple: (With<T>, With<P>),
-}
-
-fn spawn(mut commands: Commands) {
-  commands.spawn((ComponentA, ComponentB, ComponentC, ComponentD));
-}
-
-fn print_components_iter_mut(
-  mut query: Query<
-    CustomQuery<ComponentC, ComponentD>,
-    CustomQueryFilter<ComponentC, ComponentD>,
-  >,
-) {
-  println!("Print components (iter_mut):");
-  for e in &mut query {
-    // Re-declaring the variable to illustrate the type of the actual iterator item.
-    let e: CustomQueryItem<'_, _, _> = e;
-    println!("Entity: {:?}", e.entity);
-    println!("A: {:?}", e.a);
-    println!("B: {:?}", e.b);
-    println!("Optional nested: {:?}", e.optional_nested);
-    println!("Optional tuple: {:?}", e.optional_tuple);
-    println!("Nested: {:?}", e.nested);
-    println!("Generic: {:?}", e.generic);
-  }
-  println!();
-}
-
-fn print_components_iter(
-  query: Query<
-    CustomQuery<ComponentC, ComponentD>,
-    CustomQueryFilter<ComponentC, ComponentD>,
-  >,
-) {
-  println!("Print components (iter):");
-  for e in &query {
-    // Re-declaring the variable to illustrate the type of the actual iterator item.
-    let e: CustomQueryReadOnlyItem<'_, _, _> = e;
-    println!("Entity: {:?}", e.entity);
-    println!("A: {:?}", e.a);
-    println!("B: {:?}", e.b);
-    println!("Nested: {:?}", e.nested);
-    println!("Generic: {:?}", e.generic);
-  }
-  println!();
-}
-
-type NestedTupleQuery<'w> = (&'w ComponentC, ComponentD);
-type GenericTupleQuery<'w, T, P> = (&'w T, &'w P);
-
-fn print_components_tuple(
-  query: Query<
-    (
-      Entity,
-      &ComponentA,
-      &ComponentB,
-      NestedTupleQuery,
-      GenericTupleQuery<ComponentC, ComponentD>,
-    ),
-    (
-      With<ComponentC>,
-      With<ComponentD>,
-      Or<(Added<ComponentC>, Changed<ComponentD>, Without<ComponentZ>)>,
-    ),
-  >,
-) {
-  println!("Print components (tuple):");
-  for (entity, a, b, nested, (generic_c, generic_d)) in &query {
-    println!("Entity: {entity:?}");
-    println!("A: {a:?}");
-    println!("B: {b:?}");
-    println!("Nested: {:?} {:?}", nested.0, nested.1);
-    println!("Generic: {generic_c:?} {generic_d:?}");
-  }
+        if name.starts_with("cornell_box") {
+            materials.get_mut(material).unwrap().lightmap_exposure = exposure;
+            commands.entity(entity).insert(Lightmap {
+                image: asset_server.load("lightmaps/CornellBox-Box.zstd.ktx2"),
+                ..default()
+            });
+            continue;
+        }
+    }
 }

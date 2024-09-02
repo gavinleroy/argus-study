@@ -7,32 +7,30 @@ use crate::{
 };
 
 mod blast_dsl;
-mod charge_dsl;
 mod collect_dsl;
+mod fuel_dsl;
 mod move_dsl;
 
 mod types {
   use super::*;
   pub type Move<Rocket, D> = <Rocket as move_dsl::MoveDsl<D>>::Output;
-  pub type Charge<Rocket, C> = <Rocket as charge_dsl::ChargeDsl<C>>::Output;
+  pub type Fuel<Rocket, N, P> = <Rocket as fuel_dsl::FuelDsl<N, P>>::Output;
   pub type Blast<Rocket, C> = <Rocket as blast_dsl::BlastDsl<C>>::Output;
 }
 
 mod methods {
   pub use super::{
-    blast_dsl::*, charge_dsl::*, collect_dsl::CollectDsl as ProbeDsl,
-    move_dsl::*,
+    blast_dsl::*, collect_dsl::CollectDsl as ProbeDsl, fuel_dsl::*, move_dsl::*,
   };
 }
 
-pub trait Rocket {
+pub(crate) type MaxFuel = num::Four;
+
+pub trait IntergalacticTravel {
   type Location: Pos;
-  type Charge: Num;
   type Fuel: Num;
   type Dir: Direction;
 }
-
-// You can only collect samples if it has `location == destination`
 
 pub trait ExplorationDsl: Sized {
   fn left(self) -> types::Move<Self, Left>
@@ -70,11 +68,11 @@ pub trait ExplorationDsl: Sized {
     methods::BlastDsl::blast(self, x)
   }
 
-  fn charge_engines<X>(self, x: X) -> types::Charge<Self, X>
+  fn refuel<N, P>(self, p: P, x: N) -> types::Fuel<Self, N, P>
   where
-    Self: methods::ChargeDsl<X>,
+    Self: methods::FuelDsl<N, P>,
   {
-    methods::ChargeDsl::charge(self, x)
+    methods::FuelDsl::refuel(self, p, x)
   }
 
   fn probe<P, C, Marker>(self, config: C)
@@ -85,19 +83,18 @@ pub trait ExplorationDsl: Sized {
   }
 }
 
-impl<R: Rocket> ExplorationDsl for R {}
+impl<R: IntergalacticTravel> ExplorationDsl for R {}
 
-pub struct IntergalacticRocket<Loc, Ch, F, Dir>(PhantomData<(Loc, Ch, F, Dir)>);
+pub struct Rocket<Loc, F, Dir>(PhantomData<(Loc, F, Dir)>);
 
-pub fn make_rocket() -> IntergalacticRocket<Origin, num::Zero, num::Ten, Up> {
-  IntergalacticRocket(PhantomData)
+impl Rocket<Origin, MaxFuel, Up> {
+  pub fn from_origin() -> Self {
+    Rocket(PhantomData)
+  }
 }
 
-impl<L: Pos, C: Num, F: Num, Dir: Direction> Rocket
-  for IntergalacticRocket<L, C, F, Dir>
-{
+impl<L: Pos, F: Num, Dir: Direction> IntergalacticTravel for Rocket<L, F, Dir> {
   type Location = L;
-  type Charge = C;
   type Fuel = F;
   type Dir = Dir;
 }

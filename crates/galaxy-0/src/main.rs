@@ -12,9 +12,8 @@ fn collect(bubble: FermiBubble, query: Query<(Meteoroid, Asteroid)>) {
 }
 
 fn main() {
-  make_rocket()
+  Rocket::from_origin()
     .right()
-    .charge_engines(One)
     .forward(One)
     .probe(collect)
 }

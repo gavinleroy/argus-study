@@ -6,9 +6,10 @@ mod num;
 mod pos;
 mod probe;
 mod travel;
+mod planet;
 
 pub mod prelude {
   pub use space_macros::*;
 
-  pub use crate::{debris::*, dir::*, num::*, pos::*, probe::*, travel::*};
+  pub use crate::{debris::*, dir::*, num::*, pos::*, probe::*, travel::*, planet::*};
 }

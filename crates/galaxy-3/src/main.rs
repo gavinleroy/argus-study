@@ -1,17 +1,24 @@
 use space::prelude::*;
 
+// NOTE: The collection method should be sufficient and does not need modification.
 fn collect_debris(query: Query<(Bolt, AlienCrap)>) {
   for (b, a) in &query {
     println!("Bolt & AlienCrap collected! {b:?} {a:?}");
   }
 }
 
+// TASK: A satellite crashed into a UFO leaving a pile of debris 
+// and alien junk at location (2, 5) and we need to go clean it up.
 fn main() {
-  make_rocket()
+  Rocket::from_origin()
     .up()
-    .charge_engines(Five)
+    .forward(Two)
+    .right()
+    .forward(One)
+    .refuel(Yavin, Four)
+    .up()
     .forward(Three)
     .right()
-    .forward(Two)
+    .forward(One)
     .probe(collect_debris)
 }
