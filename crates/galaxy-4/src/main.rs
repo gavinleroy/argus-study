@@ -9,8 +9,8 @@ fn collect_debris(query: Query<(Screw, Bolt, UFO)>) {
 }
 
 // TASK: a crashed UFO was reported at location (2, 1). We need to 
-// send a probe to collect the debris for study. The following launch 
-// sequence is collect and shouldn't be modified.
+// send a probe to collect the debris for study. The following flight 
+// plan is correct and shouldn't be modified.
 fn main() {
   Rocket::from_origin()
     .up()

@@ -11,6 +11,9 @@ fn collect(bubble: FermiBubble, query: Query<(Meteoroid, Asteroid)>) {
   }
 }
 
+// TASK: there's a fermi bubble at (1, 0), such a rarity; let's collect it!
+// The bubble contains meteoroids and asteroids, let's collect them too. The 
+// flight plan below is correct and shouldn't need modification.
 fn main() {
   Rocket::from_origin()
     .right()
