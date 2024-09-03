@@ -2,7 +2,7 @@ use space::prelude::*;
 
 // NOTE: The probe must collect screws, bolts, and the reported UFO. 
 // The type of `query` should not need modification.
-fn collect_debris(query: Query<(Screw, Bolt, UFO)>) {
+fn collect_debris(query: Finder<(Screw, Bolt, UFO)>) {
   for (s, b, ufo) in &query {
     println!("Collecting debris: (screw, bolt, ufo) ({s:?}, {b:?}, {ufo:?})");
   }

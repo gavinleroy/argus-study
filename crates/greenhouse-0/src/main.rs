@@ -9,14 +9,12 @@ struct Nitrogen;
 struct Phosphorus;
 
 async fn recipe(i1: Nitrogen, i2: Phosphorus, i3: Alihotsy) -> Blue {
-  // NOTE: I definitely want to return a blue potion, you
-  // shouldn't need to change the function body.
   EmptyCauldron::new().mix(i1).mix(i2).mix(i3).pour_as()
 }
 
-// TASK: Create a garden of wiggentrees and feed them daily with the following 
+// TASK: Create a garden of wiggentrees and feed them daily with the following
 // fertilizer mixture recipe: 1 part nitrogen, 1 part phosphorus, and 1 part alihotsy.
-// The resulting potion should be *blue*. 
+// The resulting potion should be blue, and the recipe should use all the ingredients.
 // The below setup code should not need modification.
 fn main() {
   Garden::<Wiggentree, 1>::new()
