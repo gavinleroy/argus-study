@@ -31,17 +31,17 @@ pub struct Bolt(());
 #[derive(Debug)]
 pub struct UFO(Rc<AlienCrap>);
 
-pub trait Resource {}
+pub trait Collectible {}
 
-pub struct Res<T>(PhantomData<T>);
+pub struct Col<T>(PhantomData<T>);
 
-impl<T: Debug> Debug for Res<T> {
+impl<T: Debug> Debug for Col<T> {
   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
     write!(f, "{:?}", self.0)
   }
 }
 
-impl<R: Resource> ProbeParam for Res<R> {
+impl<R: Collectible> ProbeParam for Col<R> {
   type Item = R;
 }
 
@@ -53,19 +53,19 @@ impl Debris for Screw {}
 impl Debris for Bolt {}
 impl Debris for UFO {}
 
-pub trait QueryData {
+pub trait FinderData {
   type Item;
 }
 
 macro_rules! impl_query_data {
     ($($name: ident),*) => {
-        $(impl QueryData for $name {
+        $(impl FinderData for $name {
             type Item = $name;
         })*
     };
 }
 
-impl<D: QueryData> QueryData for Option<D> {
+impl<D: FinderData> FinderData for Option<D> {
   type Item = Option<D::Item>;
 }
 
@@ -79,15 +79,15 @@ impl_query_data! {
     UFO
 }
 
-pub struct Query<D: QueryData>(PhantomData<D>);
+pub struct Finder<D: FinderData>(PhantomData<D>);
 
-impl<D: QueryData> ProbeParam for Query<D> {
-  type Item = <D as QueryData>::Item;
+impl<D: FinderData> ProbeParam for Finder<D> {
+  type Item = <D as FinderData>::Item;
 }
 
 macro_rules! impl_tuple_query_data {
     ($($name: ident),*) => {
-        impl<$($name: QueryData),*> QueryData for ($($name,)*) {
+        impl<$($name: FinderData),*> FinderData for ($($name,)*) {
             type Item = ($($name::Item,)*);
         }
     };
@@ -111,9 +111,9 @@ all_tuples!(impl_tuple_debris, 0, 15, F);
 
 pub struct QueryIter<D>(PhantomData<D>);
 
-impl<D: QueryData> IntoIterator for &Query<D> {
-  type Item = <D as QueryData>::Item;
-  type IntoIter = QueryIter<<D as QueryData>::Item>;
+impl<D: FinderData> IntoIterator for &Finder<D> {
+  type Item = <D as FinderData>::Item;
+  type IntoIter = QueryIter<<D as FinderData>::Item>;
 
   fn into_iter(self) -> Self::IntoIter {
     QueryIter(PhantomData)

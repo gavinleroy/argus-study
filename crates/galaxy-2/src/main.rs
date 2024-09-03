@@ -1,8 +1,9 @@
 use space::prelude::*;
 
-// NOTE: I want to create a generic function that can take any probe 
+// TASK: I want to create a generic function that can take any probe 
 // configuration and perform an additional check for UFOs. The function 
-// body is sufficient and should not need modification.
+// body is sufficient and should not need modification, I just need help
+// getting the type signature right.
 fn probe_with_ufo_check<T, Marker>(
   r: T,
   config: impl IntoProbe<(), (), Marker>,
@@ -12,7 +13,7 @@ where
 {
   r.probe((
     config,
-    |depot: &mut CollectionDeposit, ufo: Query<Option<UFO>>| {
+    |depot: &mut CollectionDeposit, ufo: Finder<Option<UFO>>| {
       for ufo in &ufo {
         if let Some(ufo) = ufo {
           println!("UFO sighting! {ufo:?}");
@@ -24,7 +25,7 @@ where
 }
 
 // An example probe function that collects space debris.
-fn collect_debris(query: Query<(Bolt, Screw)>) {
+fn collect_debris(query: Finder<(Bolt, Screw)>) {
   for (bolt, screw) in &query {
     println!("Collecting: (bolt, screw) ({:?}, {:?})", bolt, screw);
   }

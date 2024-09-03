@@ -1,9 +1,9 @@
 use space::prelude::*;
 
-#[derive(Resource, Debug)]
+#[derive(Collectible, Debug)]
 struct FermiBubble;
 
-fn collect(bubble: FermiBubble, query: Query<(Meteoroid, Asteroid)>) {
+fn collect(bubble: FermiBubble, query: Finder<(Meteoroid, Asteroid)>) {
   println!("Collected Fermi Bubble! {bubble:?}");
 
   for (m, a) in &query {
