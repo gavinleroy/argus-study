@@ -160,17 +160,17 @@
 <span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>UFO(Rc&lt;AlienCrap&gt;);
 
-<span class="kw">pub trait </span>Resource {}
+<span class="kw">pub trait </span>Collectible {}
 
-<span class="kw">pub struct </span>Res&lt;T&gt;(PhantomData&lt;T&gt;);
+<span class="kw">pub struct </span>Col&lt;T&gt;(PhantomData&lt;T&gt;);
 
-<span class="kw">impl</span>&lt;T: Debug&gt; Debug <span class="kw">for </span>Res&lt;T&gt; {
+<span class="kw">impl</span>&lt;T: Debug&gt; Debug <span class="kw">for </span>Col&lt;T&gt; {
   <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
     <span class="macro">write!</span>(f, <span class="string">"{:?}"</span>, <span class="self">self</span>.<span class="number">0</span>)
   }
 }
 
-<span class="kw">impl</span>&lt;R: Resource&gt; ProbeParam <span class="kw">for </span>Res&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: Collectible&gt; ProbeParam <span class="kw">for </span>Col&lt;R&gt; {
   <span class="kw">type </span>Item = R;
 }
 
@@ -182,19 +182,19 @@
 <span class="kw">impl </span>Debris <span class="kw">for </span>Bolt {}
 <span class="kw">impl </span>Debris <span class="kw">for </span>UFO {}
 
-<span class="kw">pub trait </span>QueryData {
+<span class="kw">pub trait </span>FinderData {
   <span class="kw">type </span>Item;
 }
 
 <span class="macro">macro_rules!</span> impl_query_data {
     ($(<span class="macro-nonterminal">$name</span>: ident),<span class="kw-2">*</span>) =&gt; {
-        $(<span class="kw">impl </span>QueryData <span class="kw">for </span><span class="macro-nonterminal">$name </span>{
+        $(<span class="kw">impl </span>FinderData <span class="kw">for </span><span class="macro-nonterminal">$name </span>{
             <span class="kw">type </span>Item = <span class="macro-nonterminal">$name</span>;
         })*
     };
 }
 
-<span class="kw">impl</span>&lt;D: QueryData&gt; QueryData <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;D&gt; {
+<span class="kw">impl</span>&lt;D: FinderData&gt; FinderData <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;D&gt; {
   <span class="kw">type </span>Item = <span class="prelude-ty">Option</span>&lt;D::Item&gt;;
 }
 
@@ -208,15 +208,15 @@
     UFO
 }
 
-<span class="kw">pub struct </span>Query&lt;D: QueryData&gt;(PhantomData&lt;D&gt;);
+<span class="kw">pub struct </span>Finder&lt;D: FinderData&gt;(PhantomData&lt;D&gt;);
 
-<span class="kw">impl</span>&lt;D: QueryData&gt; ProbeParam <span class="kw">for </span>Query&lt;D&gt; {
-  <span class="kw">type </span>Item = &lt;D <span class="kw">as </span>QueryData&gt;::Item;
+<span class="kw">impl</span>&lt;D: FinderData&gt; ProbeParam <span class="kw">for </span>Finder&lt;D&gt; {
+  <span class="kw">type </span>Item = &lt;D <span class="kw">as </span>FinderData&gt;::Item;
 }
 
 <span class="macro">macro_rules!</span> impl_tuple_query_data {
     ($(<span class="macro-nonterminal">$name</span>: ident),<span class="kw-2">*</span>) =&gt; {
-        <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$name</span>: QueryData),<span class="kw-2">*</span>&gt; QueryData <span class="kw">for </span>($(<span class="macro-nonterminal">$name</span>,)<span class="kw-2">*</span>) {
+        <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$name</span>: FinderData),<span class="kw-2">*</span>&gt; FinderData <span class="kw">for </span>($(<span class="macro-nonterminal">$name</span>,)<span class="kw-2">*</span>) {
             <span class="kw">type </span>Item = ($(<span class="macro-nonterminal">$name::Item</span>,)<span class="kw-2">*</span>);
         }
     };
@@ -240,9 +240,9 @@
 
 <span class="kw">pub struct </span>QueryIter&lt;D&gt;(PhantomData&lt;D&gt;);
 
-<span class="kw">impl</span>&lt;D: QueryData&gt; IntoIterator <span class="kw">for </span><span class="kw-2">&amp;</span>Query&lt;D&gt; {
-  <span class="kw">type </span>Item = &lt;D <span class="kw">as </span>QueryData&gt;::Item;
-  <span class="kw">type </span>IntoIter = QueryIter&lt;&lt;D <span class="kw">as </span>QueryData&gt;::Item&gt;;
+<span class="kw">impl</span>&lt;D: FinderData&gt; IntoIterator <span class="kw">for </span><span class="kw-2">&amp;</span>Finder&lt;D&gt; {
+  <span class="kw">type </span>Item = &lt;D <span class="kw">as </span>FinderData&gt;::Item;
+  <span class="kw">type </span>IntoIter = QueryIter&lt;&lt;D <span class="kw">as </span>FinderData&gt;::Item&gt;;
 
   <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="self">Self</span>::IntoIter {
     QueryIter(PhantomData)
