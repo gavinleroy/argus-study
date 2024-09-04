@@ -45,7 +45,11 @@ fn parser() -> impl Parser<char, Expr, Error = Simple<char>> {
         let atom = int
             .or(expr.delimited_by(just('('), just(')')))
             .or(call)
-            .or(ident);
+            // VVVVVV The error is specifically in this expression
+            .or(ident)
+            // ^^^^^^^
+            ;
+
 
         let op = |c| just(c).padded();
 

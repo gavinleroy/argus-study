@@ -15,8 +15,8 @@ pub struct IsRockCollector;
 
 impl<Item, R, P, C, L, X, Y> CollectDsl<P, C, IsRockCollector> for R
 where
-  X: IsEven,
-  Y: IsOdd,
+  X: IsEven + NonZero,
+  Y: IsOdd + NonZero,
   L: Pos<X = X, Y = Y>,
   R: IntergalacticTravel<Location = L>,
   C: IntoProbeConfigs<P, Item = Item>,

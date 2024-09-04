@@ -2014,6 +2014,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "diesel-3"
+version = "0.1.0"
+dependencies = [
+ "diesel",
+ "dotenvy",
+]
+
+[[package]]
 name = "diesel_derives"
 version = "2.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

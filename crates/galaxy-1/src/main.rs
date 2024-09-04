@@ -8,10 +8,10 @@ fn collect_meteoroid(query: Finder<Meteoroid>) {
   }
 }
 
-// TASK: There is a meteoroid within two AU^2 of position (1, 1) that needs to be collected. 
-// If we can get to a suitable position of the description it should be within collection range.
+// TASK: a meteoroid has been reported north-east of the station. We need to travel
+// some distance up and right to gather it, but I can't seem to get it right.
+// Help me figure out how far to go!
 fn main() {
-  // Start the mission from the space center origin
   Rocket::from_origin()
     .up()
     .forward(One)

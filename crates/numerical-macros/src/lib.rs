@@ -70,6 +70,9 @@ fn numerical_system(_: Num, max: Num) -> TokenStream {
       pub trait IsZero {}
     },
     parse_quote! {
+      pub trait NonZero {}
+    },
+    parse_quote! {
       pub trait NumEq<T: Num> {}
     },
     parse_quote! {
@@ -96,6 +99,13 @@ fn numerical_system(_: Num, max: Num) -> TokenStream {
       // define equality on itself
       impl NumEq<#name> for #name {}
     });
+
+    if 0 < i {
+      reflexive_impls.push(parse_quote! {
+        // define non-zero
+        impl NonZero for #name {}
+      });
+    }
 
     if i % 2 == 0 {
       reflexive_impls.push(parse_quote! {
