@@ -55,8 +55,8 @@
 
 <span class="kw">impl</span>&lt;Item, R, P, C, L, X, Y&gt; CollectDsl&lt;P, C, IsRockCollector&gt; <span class="kw">for </span>R
 <span class="kw">where
-  </span>X: IsEven,
-  Y: IsOdd,
+  </span>X: IsEven + NonZero,
+  Y: IsOdd + NonZero,
   L: Pos&lt;X = X, Y = Y&gt;,
   R: IntergalacticTravel&lt;Location = L&gt;,
   C: IntoProbeConfigs&lt;P, Item = Item&gt;,
