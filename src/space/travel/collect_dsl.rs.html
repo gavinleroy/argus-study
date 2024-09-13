@@ -38,6 +38,10 @@
 <a href="#38" id="38">38</a>
 <a href="#39" id="39">39</a>
 <a href="#40" id="40">40</a>
+<a href="#41" id="41">41</a>
+<a href="#42" id="42">42</a>
+<a href="#43" id="43">43</a>
+<a href="#44" id="44">44</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use crate</span>::{
   debris::{Debris, Rock},
@@ -53,10 +57,12 @@
 <span class="kw">pub struct </span>IsDebrisCollector;
 <span class="kw">pub struct </span>IsRockCollector;
 
-<span class="kw">impl</span>&lt;Item, R, P, C, L, X, Y&gt; CollectDsl&lt;P, C, IsRockCollector&gt; <span class="kw">for </span>R
+<span class="kw">impl</span>&lt;Item, R, P, C, L, X, Y&gt;
+  CollectDsl&lt;P, C, IsDebrisCollector&gt; <span class="kw">for </span>R
 <span class="kw">where
   </span>X: IsEven + NonZero,
   Y: IsOdd + NonZero,
+  Item: Debris,
   L: Pos&lt;X = X, Y = Y&gt;,
   R: IntergalacticTravel&lt;Location = L&gt;,
   C: IntoProbeConfigs&lt;P, Item = Item&gt;,
@@ -66,10 +72,12 @@
   }
 }
 
-<span class="kw">impl</span>&lt;Item, R, P, C, L, X, Y&gt; CollectDsl&lt;P, C, IsDebrisCollector&gt; <span class="kw">for </span>R
+<span class="kw">impl</span>&lt;Item, R, P, C, L, X, Y&gt;
+  CollectDsl&lt;P, C, IsRockCollector&gt; <span class="kw">for </span>R
 <span class="kw">where
   </span>X: IsOdd,
   Y: IsEven,
+  Item: Rock,
   L: Pos&lt;X = X, Y = Y&gt;,
   R: IntergalacticTravel&lt;Location = L&gt;,
   C: IntoProbeConfigs&lt;P, Item = Item&gt;,

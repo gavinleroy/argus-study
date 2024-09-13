@@ -17,7 +17,12 @@
 <a href="#17" id="17">17</a>
 <a href="#18" id="18">18</a>
 <a href="#19" id="19">19</a>
-</pre></div><pre class="rust"><code><span class="kw">use super</span>::{Cauldron, Hot, MixingCauldron, NonEmpty};
+<a href="#20" id="20">20</a>
+<a href="#21" id="21">21</a>
+<a href="#22" id="22">22</a>
+</pre></div><pre class="rust"><code><span class="kw">use super</span>::{
+  Cauldron, Hot, MixingCauldron, NonEmpty,
+};
 
 <span class="kw">pub trait </span>BoilDsl {
   <span class="kw">type </span>Output;
@@ -30,7 +35,8 @@
   </span>C: Cauldron,
   C::IngredientCount: NonEmpty,
 {
-  <span class="kw">type </span>Output = MixingCauldron&lt;C::IngredientCount, Hot&gt;;
+  <span class="kw">type </span>Output =
+    MixingCauldron&lt;C::IngredientCount, Hot&gt;;
 
   <span class="kw">fn </span>boil(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Output {
     MixingCauldron::new()

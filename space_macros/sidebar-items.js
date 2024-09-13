@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"derive":["Collectible"]};
+window.SIDEBAR_ITEMS = {"derive":["Collectible","Debris","Rock"]};

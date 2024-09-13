@@ -267,13 +267,32 @@
 <a href="#267" id="267">267</a>
 <a href="#268" id="268">268</a>
 <a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>proc_macro::TokenStream;
 <span class="kw">use </span>quote::quote;
 <span class="kw">use </span>syn::{
   parse::{Parse, ParseStream},
   parse_macro_input, parse_quote,
   token::Comma,
-  Ident, ItemImpl, ItemStruct, ItemTrait, LitInt, <span class="prelude-ty">Result</span>, TypePath,
+  Ident, ItemImpl, ItemStruct, ItemTrait, LitInt,
+  <span class="prelude-ty">Result</span>, TypePath,
 };
 
 <span class="kw">type </span>Num = i64;
@@ -284,14 +303,18 @@
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>NumericalSystem {
   <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
-    <span class="kw">let </span>max = input.parse::&lt;LitInt&gt;()<span class="question-mark">?</span>.base10_parse()<span class="question-mark">?</span>;
+    <span class="kw">let </span>max =
+      input.parse::&lt;LitInt&gt;()<span class="question-mark">?</span>.base10_parse()<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ max })
   }
 }
 
 <span class="attr">#[proc_macro]
-</span><span class="kw">pub fn </span>define_numeric_system(item: TokenStream) -&gt; TokenStream {
-  <span class="kw">let </span>input = <span class="macro">parse_macro_input!</span>(item <span class="kw">as </span>NumericalSystem);
+</span><span class="kw">pub fn </span>define_numeric_system(
+  item: TokenStream,
+) -&gt; TokenStream {
+  <span class="kw">let </span>input =
+    <span class="macro">parse_macro_input!</span>(item <span class="kw">as </span>NumericalSystem);
 
   <span class="macro">assert!</span>(
     input.max &gt; <span class="number">0</span>,
@@ -308,7 +331,9 @@
     <span class="kw">let </span><span class="kw-2">mut </span>chars = part.chars();
     <span class="kw">if let </span><span class="prelude-val">Some</span>(first) = chars.next() {
       res.extend(first.to_uppercase());
-      res.extend(chars.flat_map(|c| c.to_lowercase()));
+      res.extend(
+        chars.flat_map(|c| c.to_lowercase()),
+      );
     }
   }
 
@@ -321,7 +346,10 @@
 /// This system defines the traits `Num`, `NumEq`, `IsEven`, `IsOdd`, `IsZero`, `LessOrEqual`.
 /// The traits in `std::ops` are used for addition and subtraction, note that subtraction is
 /// only defined for numbers where the subtracted result is non-negative.
-</span><span class="kw">fn </span>numerical_system(<span class="kw">_</span>: Num, max: Num) -&gt; TokenStream {
+</span><span class="kw">fn </span>numerical_system(
+  <span class="kw">_</span>: Num,
+  max: Num,
+) -&gt; TokenStream {
   <span class="comment">// TODO: allow negative numbers;
   </span><span class="kw">let </span>min = <span class="number">0</span>;
 
@@ -461,13 +489,15 @@
     <span class="kw">let </span>macro_ident = input.parse::&lt;Ident&gt;()<span class="question-mark">?</span>;
     input.parse::&lt;Comma&gt;()<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>first = input.parse::&lt;LitInt&gt;()<span class="question-mark">?</span>.base10_parse()<span class="question-mark">?</span>;
+    <span class="kw">let </span>first =
+      input.parse::&lt;LitInt&gt;()<span class="question-mark">?</span>.base10_parse()<span class="question-mark">?</span>;
     input.parse::&lt;Comma&gt;()<span class="question-mark">?</span>;
     <span class="kw">let </span>firstp = input.parse::&lt;NumP&gt;()<span class="question-mark">?</span>;
 
     input.parse::&lt;Comma&gt;()<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>second = input.parse::&lt;LitInt&gt;()<span class="question-mark">?</span>.base10_parse()<span class="question-mark">?</span>;
+    <span class="kw">let </span>second =
+      input.parse::&lt;LitInt&gt;()<span class="question-mark">?</span>.base10_parse()<span class="question-mark">?</span>;
     input.parse::&lt;Comma&gt;()<span class="question-mark">?</span>;
     <span class="kw">let </span>secondp = input.parse::&lt;NumP&gt;()<span class="question-mark">?</span>;
 
@@ -496,14 +526,20 @@
     <span class="kw">match </span>kind.to_string().as_str() {
       <span class="string">"even" </span>=&gt; <span class="prelude-val">Ok</span>(<span class="self">Self</span>::Even),
       <span class="string">"odd" </span>=&gt; <span class="prelude-val">Ok</span>(<span class="self">Self</span>::Odd),
-      <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(syn::Error::new(kind.span(), <span class="string">"expected `even` or `odd`"</span>)),
+      <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(syn::Error::new(
+        kind.span(),
+        <span class="string">"expected `even` or `odd`"</span>,
+      )),
     }
   }
 }
 
 <span class="attr">#[proc_macro]
-</span><span class="kw">pub fn </span>for_nums_p(item: TokenStream) -&gt; TokenStream {
-  <span class="kw">let </span>input = <span class="macro">parse_macro_input!</span>(item <span class="kw">as </span>AllNumbers);
+</span><span class="kw">pub fn </span>for_nums_p(
+  item: TokenStream,
+) -&gt; TokenStream {
+  <span class="kw">let </span>input =
+    <span class="macro">parse_macro_input!</span>(item <span class="kw">as </span>AllNumbers);
   for_numbers_p(input)
 }
 

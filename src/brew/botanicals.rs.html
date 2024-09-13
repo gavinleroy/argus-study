@@ -69,6 +69,16 @@
 <a href="#69" id="69">69</a>
 <a href="#70" id="70">70</a>
 <a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Botanicals grown for use in potions.
 </span><span class="kw">use crate</span>::{
   potions::{IntoRecipe, Poison},
@@ -85,14 +95,19 @@
   Bubotuber
 }
 
-<span class="kw">pub struct </span>Reflower(std::marker::PhantomData&lt;std::rc::Rc&lt;()&gt;&gt;);
+<span class="kw">pub struct </span>Reflower(
+  std::marker::PhantomData&lt;std::rc::Rc&lt;()&gt;&gt;,
+);
 <span class="kw">impl </span>Botanical <span class="kw">for </span>Reflower {}
 
 <span class="kw">pub trait </span>Feedable {}
 <span class="kw">impl</span>&lt;B: Botanical&gt; Feedable <span class="kw">for </span>B {}
 
 <span class="kw">pub trait </span>AsGarden {}
-<span class="kw">impl</span>&lt;T: Botanical, <span class="kw">const </span>N: usize&gt; AsGarden <span class="kw">for </span>Garden&lt;T, N&gt; {}
+<span class="kw">impl</span>&lt;T: Botanical, <span class="kw">const </span>N: usize&gt; AsGarden
+  <span class="kw">for </span>Garden&lt;T, N&gt;
+{
+}
 
 <span class="kw">pub struct </span>Garden&lt;T: Feedable, <span class="kw">const </span>N: usize&gt; {
   _plants: std::marker::PhantomData&lt;[T; N]&gt;,
@@ -113,7 +128,10 @@
     <span class="self">self
   </span>}
 
-  <span class="kw">pub fn </span>sabotage&lt;P, S, R&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _recipe: R) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self
+  <span class="kw">pub fn </span>sabotage&lt;P, S, R&gt;(
+    <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+    _recipe: R,
+  ) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self
   </span><span class="kw">where
     </span>P: Poison,
     R: IntoRecipe&lt;S, Output = P&gt;,
@@ -131,7 +149,9 @@
     R::Output: Send + Sync;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, G: AsGarden, V: AsRef&lt;[G]&gt;&gt; ParallelFeed&lt;G&gt; <span class="kw">for </span>V {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, G: AsGarden, V: AsRef&lt;[G]&gt;&gt;
+  ParallelFeed&lt;G&gt; <span class="kw">for </span>V
+{
   <span class="kw">fn </span>feed_in_parallel&lt;S, R&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, _recipe: R)
   <span class="kw">where
     </span>R: IntoRecipe&lt;S&gt; + Send + Sync,

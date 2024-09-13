@@ -98,6 +98,25 @@
 <a href="#98" id="98">98</a>
 <a href="#99" id="99">99</a>
 <a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::marker::PhantomData;
 
 <span class="kw">use crate</span>::{
@@ -113,14 +132,19 @@
 
 <span class="kw">mod </span>types {
   <span class="kw">use super</span>::<span class="kw-2">*</span>;
-  <span class="kw">pub type </span>Move&lt;Rocket, D&gt; = &lt;Rocket <span class="kw">as </span>move_dsl::MoveDsl&lt;D&gt;&gt;::Output;
-  <span class="kw">pub type </span>Fuel&lt;Rocket, N, P&gt; = &lt;Rocket <span class="kw">as </span>fuel_dsl::FuelDsl&lt;N, P&gt;&gt;::Output;
-  <span class="kw">pub type </span>Blast&lt;Rocket, C&gt; = &lt;Rocket <span class="kw">as </span>blast_dsl::BlastDsl&lt;C&gt;&gt;::Output;
+  <span class="kw">pub type </span>Move&lt;Rocket, D&gt; =
+    &lt;Rocket <span class="kw">as </span>move_dsl::MoveDsl&lt;D&gt;&gt;::Output;
+  <span class="kw">pub type </span>Fuel&lt;Rocket, N, P&gt; =
+    &lt;Rocket <span class="kw">as </span>fuel_dsl::FuelDsl&lt;N, P&gt;&gt;::Output;
+  <span class="kw">pub type </span>Blast&lt;Rocket, C&gt; =
+    &lt;Rocket <span class="kw">as </span>blast_dsl::BlastDsl&lt;C&gt;&gt;::Output;
 }
 
 <span class="kw">mod </span>methods {
   <span class="kw">pub use super</span>::{
-    blast_dsl::<span class="kw-2">*</span>, collect_dsl::CollectDsl <span class="kw">as </span>ProbeDsl, fuel_dsl::<span class="kw-2">*</span>, move_dsl::<span class="kw-2">*</span>,
+    blast_dsl::<span class="kw-2">*</span>,
+    collect_dsl::CollectDsl <span class="kw">as </span>ProbeDsl,
+    fuel_dsl::<span class="kw-2">*</span>, move_dsl::<span class="kw-2">*</span>,
   };
 }
 
@@ -161,14 +185,21 @@
     methods::MoveDsl::r#move(<span class="self">self</span>, Down)
   }
 
-  <span class="kw">fn </span>forward&lt;X&gt;(<span class="self">self</span>, x: X) -&gt; types::Blast&lt;<span class="self">Self</span>, X&gt;
+  <span class="kw">fn </span>forward&lt;X&gt;(
+    <span class="self">self</span>,
+    x: X,
+  ) -&gt; types::Blast&lt;<span class="self">Self</span>, X&gt;
   <span class="kw">where
     </span><span class="self">Self</span>: methods::BlastDsl&lt;X&gt;,
   {
     methods::BlastDsl::blast(<span class="self">self</span>, x)
   }
 
-  <span class="kw">fn </span>refuel&lt;N, P&gt;(<span class="self">self</span>, p: P, x: N) -&gt; types::Fuel&lt;<span class="self">Self</span>, N, P&gt;
+  <span class="kw">fn </span>refuel&lt;N, P&gt;(
+    <span class="self">self</span>,
+    p: P,
+    x: N,
+  ) -&gt; types::Fuel&lt;<span class="self">Self</span>, N, P&gt;
   <span class="kw">where
     </span><span class="self">Self</span>: methods::FuelDsl&lt;N, P&gt;,
   {
@@ -183,9 +214,14 @@
   }
 }
 
-<span class="kw">impl</span>&lt;R: IntergalacticTravel&gt; ExplorationDsl <span class="kw">for </span>R {}
+<span class="kw">impl</span>&lt;R: IntergalacticTravel&gt; ExplorationDsl
+  <span class="kw">for </span>R
+{
+}
 
-<span class="kw">pub struct </span>Rocket&lt;Loc, F, Dir&gt;(PhantomData&lt;(Loc, F, Dir)&gt;);
+<span class="kw">pub struct </span>Rocket&lt;Loc, F, Dir&gt;(
+  PhantomData&lt;(Loc, F, Dir)&gt;,
+);
 
 <span class="kw">impl </span>Rocket&lt;Origin, MaxFuel, Up&gt; {
   <span class="kw">pub fn </span>from_origin() -&gt; <span class="self">Self </span>{
@@ -193,7 +229,9 @@
   }
 }
 
-<span class="kw">impl</span>&lt;L: Pos, F: Num, Dir: Direction&gt; IntergalacticTravel <span class="kw">for </span>Rocket&lt;L, F, Dir&gt; {
+<span class="kw">impl</span>&lt;L: Pos, F: Num, Dir: Direction&gt;
+  IntergalacticTravel <span class="kw">for </span>Rocket&lt;L, F, Dir&gt;
+{
   <span class="kw">type </span>Location = L;
   <span class="kw">type </span>Fuel = F;
   <span class="kw">type </span>Dir = Dir;
