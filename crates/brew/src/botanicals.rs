@@ -14,14 +14,19 @@ crate::make_simple! {
   Bubotuber
 }
 
-pub struct Reflower(std::marker::PhantomData<std::rc::Rc<()>>);
+pub struct Reflower(
+  std::marker::PhantomData<std::rc::Rc<()>>,
+);
 impl Botanical for Reflower {}
 
 pub trait Feedable {}
 impl<B: Botanical> Feedable for B {}
 
 pub trait AsGarden {}
-impl<T: Botanical, const N: usize> AsGarden for Garden<T, N> {}
+impl<T: Botanical, const N: usize> AsGarden
+  for Garden<T, N>
+{
+}
 
 pub struct Garden<T: Feedable, const N: usize> {
   _plants: std::marker::PhantomData<[T; N]>,
@@ -42,7 +47,10 @@ impl<T: Feedable, const N: usize> Garden<T, N> {
     self
   }
 
-  pub fn sabotage<P, S, R>(&mut self, _recipe: R) -> &mut Self
+  pub fn sabotage<P, S, R>(
+    &mut self,
+    _recipe: R,
+  ) -> &mut Self
   where
     P: Poison,
     R: IntoRecipe<S, Output = P>,
@@ -60,7 +68,9 @@ pub trait ParallelFeed<M> {
     R::Output: Send + Sync;
 }
 
-impl<'a, G: AsGarden, V: AsRef<[G]>> ParallelFeed<G> for V {
+impl<'a, G: AsGarden, V: AsRef<[G]>>
+  ParallelFeed<G> for V
+{
   fn feed_in_parallel<S, R>(&self, _recipe: R)
   where
     R: IntoRecipe<S> + Send + Sync,

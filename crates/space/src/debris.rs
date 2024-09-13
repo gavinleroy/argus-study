@@ -1,4 +1,6 @@
-use std::{fmt::Debug, marker::PhantomData, rc::Rc};
+use std::{
+  fmt::Debug, marker::PhantomData, rc::Rc,
+};
 
 use bevy_utils::all_tuples;
 
@@ -36,7 +38,10 @@ pub trait Collectible {}
 pub struct Col<T>(PhantomData<T>);
 
 impl<T: Debug> Debug for Col<T> {
-  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+  fn fmt(
+    &self,
+    f: &mut std::fmt::Formatter<'_>,
+  ) -> std::fmt::Result {
     write!(f, "{:?}", self.0)
   }
 }
@@ -105,15 +110,16 @@ macro_rules! impl_tuple_debris {
     };
 }
 
-all_tuples!(impl_tuple_query_data, 0, 15, F);
-all_tuples!(impl_tuple_rock, 0, 15, F);
-all_tuples!(impl_tuple_debris, 0, 15, F);
+all_tuples!(impl_tuple_query_data, 1, 15, F);
+all_tuples!(impl_tuple_rock, 1, 15, F);
+all_tuples!(impl_tuple_debris, 1, 15, F);
 
 pub struct QueryIter<D>(PhantomData<D>);
 
 impl<D: FinderData> IntoIterator for &Finder<D> {
   type Item = <D as FinderData>::Item;
-  type IntoIter = QueryIter<<D as FinderData>::Item>;
+  type IntoIter =
+    QueryIter<<D as FinderData>::Item>;
 
   fn into_iter(self) -> Self::IntoIter {
     QueryIter(PhantomData)

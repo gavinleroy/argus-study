@@ -1,7 +1,10 @@
 use std::ops::{Add, Sub};
 
 use super::*;
-use crate::{dir::Direction, num::LessOrEqual, pos::PosUpdate};
+use crate::{
+  dir::Direction, num::LessOrEqual,
+  pos::PosUpdate,
+};
 
 pub trait BlastDsl<X> {
   type Output;

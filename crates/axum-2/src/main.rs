@@ -9,7 +9,9 @@ use axum::{
   Router,
 };
 use http_body_util::BodyExt;
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::{
+  layer::SubscriberExt, util::SubscriberInitExt,
+};
 
 #[tokio::main]
 async fn main() {
@@ -24,12 +26,19 @@ async fn main() {
 
   let app = Router::new()
     .route("/", post(handler))
-    .layer(middleware::from_fn(print_request_body));
+    .layer(middleware::from_fn(
+      print_request_body,
+    ));
 
-  let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
-    .await
-    .unwrap();
-  tracing::debug!("listening on {}", listener.local_addr().unwrap());
+  let listener = tokio::net::TcpListener::bind(
+    "127.0.0.1:3000",
+  )
+  .await
+  .unwrap();
+  tracing::debug!(
+    "listening on {}",
+    listener.local_addr().unwrap()
+  );
   axum::serve(listener, app).await.unwrap();
 }
 
@@ -38,14 +47,17 @@ async fn print_request_body(
   request: Request,
   next: Next,
 ) -> Result<impl IntoResponse, Response> {
-  let request = buffer_request_body(request).await?;
+  let request =
+    buffer_request_body(request).await?;
   let value = next.run(request).await;
   Ok(value)
 }
 
 // the trick is to take the request apart, buffer the body, do what you need to do, then put
 // the request back together
-async fn buffer_request_body(request: Request) -> Result<Request, Response> {
+async fn buffer_request_body(
+  request: Request,
+) -> Result<Request, Response> {
   let (parts, body) = request.into_parts();
 
   // this won't work if the body is an long running stream
@@ -53,20 +65,29 @@ async fn buffer_request_body(request: Request) -> Result<Request, Response> {
     .collect()
     .await
     .map_err(|err| {
-      (StatusCode::INTERNAL_SERVER_ERROR, err.to_string()).into_response()
+      (
+        StatusCode::INTERNAL_SERVER_ERROR,
+        err.to_string(),
+      )
+        .into_response()
     })?
     .to_bytes();
 
   do_thing_with_request_body(bytes.clone());
 
-  Ok(Request::from_parts(parts, Body::from(bytes)))
+  Ok(Request::from_parts(
+    parts,
+    Body::from(bytes),
+  ))
 }
 
 fn do_thing_with_request_body(bytes: Bytes) {
   tracing::debug!(body = ?bytes);
 }
 
-async fn handler(BufferRequestBody(body): BufferRequestBody) {
+async fn handler(
+  BufferRequestBody(body): BufferRequestBody,
+) {
   tracing::debug!(?body, "handler received body");
 }
 

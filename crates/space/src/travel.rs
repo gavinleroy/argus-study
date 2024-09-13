@@ -13,14 +13,19 @@ mod move_dsl;
 
 mod types {
   use super::*;
-  pub type Move<Rocket, D> = <Rocket as move_dsl::MoveDsl<D>>::Output;
-  pub type Fuel<Rocket, N, P> = <Rocket as fuel_dsl::FuelDsl<N, P>>::Output;
-  pub type Blast<Rocket, C> = <Rocket as blast_dsl::BlastDsl<C>>::Output;
+  pub type Move<Rocket, D> =
+    <Rocket as move_dsl::MoveDsl<D>>::Output;
+  pub type Fuel<Rocket, N, P> =
+    <Rocket as fuel_dsl::FuelDsl<N, P>>::Output;
+  pub type Blast<Rocket, C> =
+    <Rocket as blast_dsl::BlastDsl<C>>::Output;
 }
 
 mod methods {
   pub use super::{
-    blast_dsl::*, collect_dsl::CollectDsl as ProbeDsl, fuel_dsl::*, move_dsl::*,
+    blast_dsl::*,
+    collect_dsl::CollectDsl as ProbeDsl,
+    fuel_dsl::*, move_dsl::*,
   };
 }
 
@@ -61,14 +66,21 @@ pub trait ExplorationDsl: Sized {
     methods::MoveDsl::r#move(self, Down)
   }
 
-  fn forward<X>(self, x: X) -> types::Blast<Self, X>
+  fn forward<X>(
+    self,
+    x: X,
+  ) -> types::Blast<Self, X>
   where
     Self: methods::BlastDsl<X>,
   {
     methods::BlastDsl::blast(self, x)
   }
 
-  fn refuel<N, P>(self, p: P, x: N) -> types::Fuel<Self, N, P>
+  fn refuel<N, P>(
+    self,
+    p: P,
+    x: N,
+  ) -> types::Fuel<Self, N, P>
   where
     Self: methods::FuelDsl<N, P>,
   {
@@ -83,9 +95,14 @@ pub trait ExplorationDsl: Sized {
   }
 }
 
-impl<R: IntergalacticTravel> ExplorationDsl for R {}
+impl<R: IntergalacticTravel> ExplorationDsl
+  for R
+{
+}
 
-pub struct Rocket<Loc, F, Dir>(PhantomData<(Loc, F, Dir)>);
+pub struct Rocket<Loc, F, Dir>(
+  PhantomData<(Loc, F, Dir)>,
+);
 
 impl Rocket<Origin, MaxFuel, Up> {
   pub fn from_origin() -> Self {
@@ -93,7 +110,9 @@ impl Rocket<Origin, MaxFuel, Up> {
   }
 }
 
-impl<L: Pos, F: Num, Dir: Direction> IntergalacticTravel for Rocket<L, F, Dir> {
+impl<L: Pos, F: Num, Dir: Direction>
+  IntergalacticTravel for Rocket<L, F, Dir>
+{
   type Location = L;
   type Fuel = F;
   type Dir = Dir;

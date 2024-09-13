@@ -1,8 +1,11 @@
-use diesel::deserialize::{self, FromSql, FromSqlRow};
-use diesel::expression::AsExpression;
-use diesel::pg::{Pg, PgValue};
-use diesel::serialize::{self, IsNull, Output, ToSql};
 use std::io::Write;
+
+use diesel::{
+  deserialize::{self, FromSql, FromSqlRow},
+  expression::AsExpression,
+  pg::{Pg, PgValue},
+  serialize::{self, IsNull, Output, ToSql},
+};
 
 #[derive(Debug, AsExpression, FromSqlRow)]
 #[diesel(sql_type = crate::schema::sql_types::Language)]
@@ -12,8 +15,13 @@ pub enum Language {
   De,
 }
 
-impl ToSql<crate::schema::sql_types::Language, Pg> for Language {
-  fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> serialize::Result {
+impl ToSql<crate::schema::sql_types::Language, Pg>
+  for Language
+{
+  fn to_sql<'b>(
+    &'b self,
+    out: &mut Output<'b, '_, Pg>,
+  ) -> serialize::Result {
     match *self {
       Language::En => out.write_all(b"en")?,
       Language::Ru => out.write_all(b"ru")?,
@@ -23,13 +31,20 @@ impl ToSql<crate::schema::sql_types::Language, Pg> for Language {
   }
 }
 
-impl FromSql<crate::schema::sql_types::Language, Pg> for Language {
-  fn from_sql(bytes: PgValue) -> deserialize::Result<Self> {
+impl
+  FromSql<crate::schema::sql_types::Language, Pg>
+  for Language
+{
+  fn from_sql(
+    bytes: PgValue,
+  ) -> deserialize::Result<Self> {
     match bytes.as_bytes() {
       b"en" => Ok(Language::En),
       b"ru" => Ok(Language::Ru),
       b"de" => Ok(Language::De),
-      _ => Err("Unrecognized enum variant".into()),
+      _ => {
+        Err("Unrecognized enum variant".into())
+      }
     }
   }
 }

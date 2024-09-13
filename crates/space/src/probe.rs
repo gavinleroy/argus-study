@@ -40,7 +40,12 @@ pub trait Probe {
   type Item;
 }
 
-impl<T> IntoProbe<<T as Probe>::In, <T as Probe>::Out, ()> for T
+impl<T>
+  IntoProbe<
+    <T as Probe>::In,
+    <T as Probe>::Out,
+    (),
+  > for T
 where
   T: Probe,
 {
@@ -65,7 +70,9 @@ macro_rules! impl_system_param_tuple {
 
 all_tuples!(impl_system_param_tuple, 0, 16, P);
 
-pub struct FunctionProbe<M, F: ProbeFunction<M>>(PhantomData<Arc<(M, F)>>);
+pub struct FunctionProbe<M, F: ProbeFunction<M>>(
+  PhantomData<Arc<(M, F)>>,
+);
 
 impl<Marker, F> Probe for FunctionProbe<Marker, F>
 where
@@ -82,15 +89,24 @@ pub trait ProbeFunction<M>: Sized {
   type Param: ProbeParam;
 }
 
-impl<Marker, F> IntoProbe<F::In, F::Out, (IsProbeFunction, Marker)> for F
+impl<Marker, F>
+  IntoProbe<
+    F::In,
+    F::Out,
+    (IsProbeFunction, Marker),
+  > for F
 where
   F: ProbeFunction<Marker>,
 {
   type Probe = FunctionProbe<Marker, F>;
 }
 
-impl<Marker, F> IntoProbe<F::In, F::Out, (IsExclusiveProbeFunction, Marker)>
-  for F
+impl<Marker, F>
+  IntoProbe<
+    F::In,
+    F::Out,
+    (IsExclusiveProbeFunction, Marker),
+  > for F
 where
   F: ExclusiveProbeFunction<Marker>,
 {
@@ -118,21 +134,29 @@ all_tuples!(impl_probe_function, 0, 16, F);
 pub struct CollectionDeposit(());
 
 impl CollectionDeposit {
-  pub fn add_debris(&mut self, _debris: impl Debris) {}
+  pub fn add_debris(
+    &mut self,
+    _debris: impl Debris,
+  ) {
+  }
   pub fn add_rock(&mut self, _rock: impl Rock) {}
 }
 
-pub trait ExclusiveProbeFunction<M>: Sized {
+pub trait ExclusiveProbeFunction<M>:
+  Sized
+{
   type In;
   type Out;
   type Param: ProbeParam;
 }
 
-pub struct ExclusiveFunctionProbe<M, F: ExclusiveProbeFunction<M>>(
-  PhantomData<Arc<(M, F)>>,
-);
+pub struct ExclusiveFunctionProbe<
+  M,
+  F: ExclusiveProbeFunction<M>,
+>(PhantomData<Arc<(M, F)>>);
 
-impl<Marker, F> Probe for ExclusiveFunctionProbe<Marker, F>
+impl<Marker, F> Probe
+  for ExclusiveFunctionProbe<Marker, F>
 where
   F: ExclusiveProbeFunction<Marker>,
 {
@@ -156,4 +180,9 @@ macro_rules! impl_exclusive_probe_function {
     };
 }
 
-all_tuples!(impl_exclusive_probe_function, 0, 16, F);
+all_tuples!(
+  impl_exclusive_probe_function,
+  0,
+  16,
+  F
+);

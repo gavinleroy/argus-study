@@ -8,8 +8,17 @@ struct Nitrogen;
 #[derive(Mineral)]
 struct Phosphorus;
 
-async fn recipe(i1: Nitrogen, i2: Phosphorus, i3: Alihotsy) -> Blue {
-  EmptyCauldron::new().mix(i1).mix(i2).mix(i3).pour_as()
+// NOTE: I'm currently working on the recipe but it just isn't coming out right.
+async fn recipe(
+  i1: Nitrogen,
+  i2: Phosphorus,
+  i3: Alihotsy,
+) -> Blue {
+  EmptyCauldron::new()
+    .mix(i1)
+    .mix(i2)
+    .mix(i3)
+    .pour_as()
 }
 
 // TASK: Create a garden of wiggentrees and feed them daily with the following

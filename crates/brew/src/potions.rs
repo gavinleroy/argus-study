@@ -56,7 +56,8 @@ impl<IP: IntoPotion> IntoRecipe<()> for IP {
   type Output = IP::Output;
 }
 
-impl<F, T1, Out, Res> IntoRecipe<(T1, Out, Res)> for F
+impl<F, T1, Out, Res> IntoRecipe<(T1, Out, Res)>
+  for F
 where
   F: FnOnce(T1) -> Out,
   T1: PlantSafe + Send,
@@ -66,7 +67,8 @@ where
   type Output = Res::Output;
 }
 
-impl<F, T1, T2, Out, Res> IntoRecipe<(T1, T2, Out, Res)> for F
+impl<F, T1, T2, Out, Res>
+  IntoRecipe<(T1, T2, Out, Res)> for F
 where
   F: FnOnce(T1, T2) -> Out,
   T1: PlantSafe,
@@ -77,7 +79,8 @@ where
   type Output = Res::Output;
 }
 
-impl<F, T1, T2, T3, Out, Res> IntoRecipe<(T1, T2, T3, Out, Res)> for F
+impl<F, T1, T2, T3, Out, Res>
+  IntoRecipe<(T1, T2, T3, Out, Res)> for F
 where
   F: FnOnce(T1, T2, T3) -> Out,
   T1: PlantSafe,
@@ -89,7 +92,8 @@ where
   type Output = Res::Output;
 }
 
-impl<F, T1, T2, T3, T4, Out, Res> IntoRecipe<(T1, T2, T3, T4, Out, Res)> for F
+impl<F, T1, T2, T3, T4, Out, Res>
+  IntoRecipe<(T1, T2, T3, T4, Out, Res)> for F
 where
   F: FnOnce(T1, T2, T3, T4) -> Out,
   T1: PlantSafe,
@@ -102,8 +106,8 @@ where
   type Output = Res::Output;
 }
 
-impl<F, T1, T2, T3, T4, T5, Out, Res> IntoRecipe<(T1, T2, T3, T4, T5, Out, Res)>
-  for F
+impl<F, T1, T2, T3, T4, T5, Out, Res>
+  IntoRecipe<(T1, T2, T3, T4, T5, Out, Res)> for F
 where
   F: FnOnce(T1, T2, T3, T4, T5) -> Out,
   T1: PlantSafe,
@@ -118,7 +122,8 @@ where
 }
 
 impl<F, T1, T2, T3, T4, T5, T6, Out, Res>
-  IntoRecipe<(T1, T2, T3, T4, T5, T6, Out, Res)> for F
+  IntoRecipe<(T1, T2, T3, T4, T5, T6, Out, Res)>
+  for F
 where
   F: FnOnce(T1, T2, T3, T4, T5, T6) -> Out,
   T1: PlantSafe,
@@ -150,7 +155,11 @@ mod test {
 
   #[test]
   fn test_2() {
-    async fn f(_: Dittany, _: Aconite, _: Wiggentree) -> Blue {
+    async fn f(
+      _: Dittany,
+      _: Aconite,
+      _: Wiggentree,
+    ) -> Blue {
       todo!()
     }
     is_recipe(f);
@@ -158,7 +167,10 @@ mod test {
 
   #[test]
   fn test_3() {
-    async fn f(_: Dittany, _: Wiggentree) -> Pink {
+    async fn f(
+      _: Dittany,
+      _: Wiggentree,
+    ) -> Pink {
       todo!()
     }
     is_recipe(f);

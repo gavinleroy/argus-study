@@ -1,6 +1,6 @@
+use diesel::{prelude::*, sql_types::Integer};
+
 use self::schema::translations;
-use diesel::prelude::*;
-use diesel::sql_types::Integer;
 
 mod model;
 mod schema;
@@ -15,17 +15,25 @@ pub struct Translation {
 
 fn main() {
   let database_url =
-    std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-  let conn = &mut PgConnection::establish(&database_url)
-    .unwrap_or_else(|e| panic!("Error connecting to {}: {}", database_url, e));
+    std::env::var("DATABASE_URL")
+      .expect("DATABASE_URL must be set");
+  let conn =
+    &mut PgConnection::establish(&database_url)
+      .unwrap_or_else(|e| {
+        panic!(
+          "Error connecting to {}: {}",
+          database_url, e
+        )
+      });
 
-  let _ = diesel::insert_into(translations::table)
-    .values(&Translation {
-      word_id: 1,
-      translation_id: 1,
-      language: model::Language::En,
-    })
-    .execute(conn);
+  let _ =
+    diesel::insert_into(translations::table)
+      .values(&Translation {
+        word_id: 1,
+        translation_id: 1,
+        language: model::Language::En,
+      })
+      .execute(conn);
 
   let t = translations::table
     .select((

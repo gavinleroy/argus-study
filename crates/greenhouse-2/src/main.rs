@@ -2,7 +2,11 @@ use brew::prelude::*;
 
 // NOTE: my spicy recipe has been in the family for generations, no
 // need to change something that isn't broken.
-async fn spicy(i1: Shrivelfig, i2: Shrivelfig, i3: Dittany) -> Pink {
+async fn spicy(
+  i1: Shrivelfig,
+  i2: Shrivelfig,
+  i3: Dittany,
+) -> Pink {
   EmptyCauldron::new()
     .mix(i1)
     .boil()
@@ -14,8 +18,16 @@ async fn spicy(i1: Shrivelfig, i2: Shrivelfig, i3: Dittany) -> Pink {
 
 // NOTE: my neighbors insist on using their boring recipe. It helps their
 // plants grow and I don't want them to suspect faul-play, so don't change it.
-async fn boring(i1: Reflower, i2: Dittany) -> Blue {
-  EmptyCauldron::new().mix(i1).mix(i2).boil().rest().pour_as()
+async fn boring(
+  i1: Reflower,
+  i2: Dittany,
+) -> Blue {
+  EmptyCauldron::new()
+    .mix(i1)
+    .mix(i2)
+    .boil()
+    .rest()
+    .pour_as()
 }
 
 fn sabotage_feedings<T, const N: usize, R, S>(

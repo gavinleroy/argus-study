@@ -14,4 +14,4 @@ spaces_around_ranges = true
 
 use_field_init_shorthand = true
 
-max_width = 80
+max_width = 50

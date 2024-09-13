@@ -2,7 +2,10 @@ use std::marker::PhantomData;
 
 use crate::botanicals::*;
 
-pub(crate) trait PlantSafe: Ingredient {}
+pub(crate) trait PlantSafe:
+  Ingredient
+{
+}
 pub trait Ingredient {}
 
 pub trait Mineral {}

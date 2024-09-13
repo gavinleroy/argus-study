@@ -1,6 +1,6 @@
 use space::prelude::*;
 
-// NOTE: This logic is sufficient to collect the meteoroid, 
+// NOTE: This logic is sufficient to collect the meteoroid,
 // please don't change the function signature or body.
 fn collect_meteoroid(query: Finder<Meteoroid>) {
   for m in &query {

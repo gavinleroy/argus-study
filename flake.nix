@@ -19,7 +19,7 @@
         llvmPackages_latest.lld
 
         nodejs_22
-        rust-bin.stable.latest.default
+        rustup
         rust-analyzer
         rustfmt
         clippy

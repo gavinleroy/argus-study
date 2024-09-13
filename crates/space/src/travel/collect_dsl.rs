@@ -13,10 +13,12 @@ pub trait CollectDsl<P, C, Marker> {
 pub struct IsDebrisCollector;
 pub struct IsRockCollector;
 
-impl<Item, R, P, C, L, X, Y> CollectDsl<P, C, IsRockCollector> for R
+impl<Item, R, P, C, L, X, Y>
+  CollectDsl<P, C, IsDebrisCollector> for R
 where
   X: IsEven + NonZero,
   Y: IsOdd + NonZero,
+  Item: Debris,
   L: Pos<X = X, Y = Y>,
   R: IntergalacticTravel<Location = L>,
   C: IntoProbeConfigs<P, Item = Item>,
@@ -26,10 +28,12 @@ where
   }
 }
 
-impl<Item, R, P, C, L, X, Y> CollectDsl<P, C, IsDebrisCollector> for R
+impl<Item, R, P, C, L, X, Y>
+  CollectDsl<P, C, IsRockCollector> for R
 where
   X: IsOdd,
   Y: IsEven,
+  Item: Rock,
   L: Pos<X = X, Y = Y>,
   R: IntergalacticTravel<Location = L>,
   C: IntoProbeConfigs<P, Item = Item>,

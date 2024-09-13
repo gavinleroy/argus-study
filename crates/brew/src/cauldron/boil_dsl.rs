@@ -1,4 +1,6 @@
-use super::{Cauldron, Hot, MixingCauldron, NonEmpty};
+use super::{
+  Cauldron, Hot, MixingCauldron, NonEmpty,
+};
 
 pub trait BoilDsl {
   type Output;
@@ -11,7 +13,8 @@ where
   C: Cauldron,
   C::IngredientCount: NonEmpty,
 {
-  type Output = MixingCauldron<C::IngredientCount, Hot>;
+  type Output =
+    MixingCauldron<C::IngredientCount, Hot>;
 
   fn boil(self) -> Self::Output {
     MixingCauldron::new()

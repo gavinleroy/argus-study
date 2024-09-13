@@ -15,7 +15,10 @@ pub trait PourDsl<P: Potion, Marker> {
 
 impl<C, R, Count> PourDsl<R, IsColdRemedy> for C
 where
-  C: Cauldron<Temperature = Cold, IngredientCount = Count>,
+  C: Cauldron<
+    Temperature = Cold,
+    IngredientCount = Count,
+  >,
   R: Remedy,
   Count: NonEmpty + IsOdd,
 {
@@ -28,7 +31,10 @@ where
 
 impl<C, R, Count> PourDsl<R, IsWarmRemedy> for C
 where
-  C: Cauldron<Temperature = Warm, IngredientCount = Count>,
+  C: Cauldron<
+    Temperature = Warm,
+    IngredientCount = Count,
+  >,
   R: Remedy,
   Count: NonEmpty + IsEven,
 {
@@ -41,7 +47,10 @@ where
 
 impl<C, P, Count> PourDsl<P, IsColdPoison> for C
 where
-  C: Cauldron<Temperature = Cold, IngredientCount = Count>,
+  C: Cauldron<
+    Temperature = Cold,
+    IngredientCount = Count,
+  >,
   P: Poison,
   Count: NonEmpty + IsEven,
 {
@@ -54,7 +63,10 @@ where
 
 impl<C, P, Count> PourDsl<P, IsWarmPoison> for C
 where
-  C: Cauldron<Temperature = Warm, IngredientCount = Count>,
+  C: Cauldron<
+    Temperature = Warm,
+    IngredientCount = Count,
+  >,
   P: Poison,
   Count: NonEmpty + IsOdd,
 {

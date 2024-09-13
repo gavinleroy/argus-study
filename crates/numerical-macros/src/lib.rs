@@ -4,7 +4,8 @@ use syn::{
   parse::{Parse, ParseStream},
   parse_macro_input, parse_quote,
   token::Comma,
-  Ident, ItemImpl, ItemStruct, ItemTrait, LitInt, Result, TypePath,
+  Ident, ItemImpl, ItemStruct, ItemTrait, LitInt,
+  Result, TypePath,
 };
 
 type Num = i64;
@@ -15,14 +16,18 @@ struct NumericalSystem {
 
 impl Parse for NumericalSystem {
   fn parse(input: ParseStream) -> Result<Self> {
-    let max = input.parse::<LitInt>()?.base10_parse()?;
+    let max =
+      input.parse::<LitInt>()?.base10_parse()?;
     Ok(Self { max })
   }
 }
 
 #[proc_macro]
-pub fn define_numeric_system(item: TokenStream) -> TokenStream {
-  let input = parse_macro_input!(item as NumericalSystem);
+pub fn define_numeric_system(
+  item: TokenStream,
+) -> TokenStream {
+  let input =
+    parse_macro_input!(item as NumericalSystem);
 
   assert!(
     input.max > 0,
@@ -39,7 +44,9 @@ fn cardinal(i: Num) -> TypePath {
     let mut chars = part.chars();
     if let Some(first) = chars.next() {
       res.extend(first.to_uppercase());
-      res.extend(chars.flat_map(|c| c.to_lowercase()));
+      res.extend(
+        chars.flat_map(|c| c.to_lowercase()),
+      );
     }
   }
 
@@ -52,7 +59,10 @@ fn cardinal(i: Num) -> TypePath {
 /// This system defines the traits `Num`, `NumEq`, `IsEven`, `IsOdd`, `IsZero`, `LessOrEqual`.
 /// The traits in `std::ops` are used for addition and subtraction, note that subtraction is
 /// only defined for numbers where the subtracted result is non-negative.
-fn numerical_system(_: Num, max: Num) -> TokenStream {
+fn numerical_system(
+  _: Num,
+  max: Num,
+) -> TokenStream {
   // TODO: allow negative numbers;
   let min = 0;
 
@@ -192,13 +202,15 @@ impl Parse for AllNumbers {
     let macro_ident = input.parse::<Ident>()?;
     input.parse::<Comma>()?;
 
-    let first = input.parse::<LitInt>()?.base10_parse()?;
+    let first =
+      input.parse::<LitInt>()?.base10_parse()?;
     input.parse::<Comma>()?;
     let firstp = input.parse::<NumP>()?;
 
     input.parse::<Comma>()?;
 
-    let second = input.parse::<LitInt>()?.base10_parse()?;
+    let second =
+      input.parse::<LitInt>()?.base10_parse()?;
     input.parse::<Comma>()?;
     let secondp = input.parse::<NumP>()?;
 
@@ -227,14 +239,20 @@ impl Parse for NumP {
     match kind.to_string().as_str() {
       "even" => Ok(Self::Even),
       "odd" => Ok(Self::Odd),
-      _ => Err(syn::Error::new(kind.span(), "expected `even` or `odd`")),
+      _ => Err(syn::Error::new(
+        kind.span(),
+        "expected `even` or `odd`",
+      )),
     }
   }
 }
 
 #[proc_macro]
-pub fn for_nums_p(item: TokenStream) -> TokenStream {
-  let input = parse_macro_input!(item as AllNumbers);
+pub fn for_nums_p(
+  item: TokenStream,
+) -> TokenStream {
+  let input =
+    parse_macro_input!(item as AllNumbers);
   for_numbers_p(input)
 }
 
