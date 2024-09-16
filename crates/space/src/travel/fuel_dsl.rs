@@ -14,10 +14,10 @@ pub trait FuelDsl<N, P> {
   fn refuel(self, p: P, n: N) -> Self::Output;
 }
 
-impl<R, N, X, Y, P> FuelDsl<N, P> for R
+impl<R, N, P> FuelDsl<N, P> for R
 where
-  R: IntergalacticTravel<Location = (X, Y)>,
-  P: Planet<At = (X, Y)>,
+  P: Planet,
+  R: IntergalacticTravel<Location = P::At>,
   R::Fuel: LessOrEqual<One>,
   R::Fuel: Add<N>,
   <R::Fuel as Add<N>>::Output:
