@@ -49,10 +49,10 @@
   <span class="kw">fn </span>refuel(<span class="self">self</span>, p: P, n: N) -&gt; <span class="self">Self</span>::Output;
 }
 
-<span class="kw">impl</span>&lt;R, N, X, Y, P&gt; FuelDsl&lt;N, P&gt; <span class="kw">for </span>R
+<span class="kw">impl</span>&lt;R, N, P&gt; FuelDsl&lt;N, P&gt; <span class="kw">for </span>R
 <span class="kw">where
-  </span>R: IntergalacticTravel&lt;Location = (X, Y)&gt;,
-  P: Planet&lt;At = (X, Y)&gt;,
+  </span>P: Planet,
+  R: IntergalacticTravel&lt;Location = P::At&gt;,
   R::Fuel: LessOrEqual&lt;One&gt;,
   R::Fuel: Add&lt;N&gt;,
   &lt;R::Fuel <span class="kw">as </span>Add&lt;N&gt;&gt;::Output:
